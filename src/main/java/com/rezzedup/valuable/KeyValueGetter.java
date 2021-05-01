@@ -10,7 +10,7 @@ package com.rezzedup.valuable;
 import java.util.Optional;
 
 @FunctionalInterface
-public interface ValueGetter<S, V>
+public interface KeyValueGetter<S, K, V>
 {
-    Optional<V> get(S storage);
+    Optional<V> get(S storage, K key);
 }

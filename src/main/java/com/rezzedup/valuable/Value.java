@@ -7,4 +7,10 @@
  */
 package com.rezzedup.valuable;
 
-public interface Value<S, T> extends ValueGetter<S, T>, ValueQuery<S>, ValueSetter<S, T> {}
+public interface Value<S, V> extends ValueGetter<S, V>, ValueQuery<S>, ValueSetter<S, V>
+{
+    static <S, V> Value<S, V> compose(ValueQuery<S> query, ValueGetter<S, V> getter, ValueSetter<S, V> setter)
+    {
+        return new ComposedValue<>(query, getter, setter);
+    }
+}

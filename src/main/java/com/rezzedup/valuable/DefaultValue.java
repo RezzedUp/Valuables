@@ -7,4 +7,16 @@
  */
 package com.rezzedup.valuable;
 
-public interface DefaultValue<S, T> extends DefaultValueGetter<S, T>, DefaultValueSetter<S, T>,  Value<S, T> {}
+public interface DefaultValue<S, V> extends DefaultValueGetter<S, V>, DefaultValueSetter<S, V>,  Value<S, V>
+{
+    static <S, V> DefaultValue<S, V> compose(T def, Value<S, V> value)
+    {
+        return new ComposedDefaultValue<>(def, value);
+    }
+    
+    @Override
+    default void setAsDefault(S storage)
+    {
+        if (!isSet(storage)) { set(storage, getDefaultValue()); }
+    }
+}

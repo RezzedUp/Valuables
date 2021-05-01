@@ -7,10 +7,10 @@
  */
 package com.rezzedup.valuable;
 
-import java.util.Optional;
-
-@FunctionalInterface
-public interface ValueGetter<S, V>
+public interface KeyValue<S, K, V> extends KeyHolder<K>, Value<S, V>
 {
-    Optional<V> get(S storage);
+    static <S, K, V> KeyValue<S, K, V> compose(K key, KeyValueQuery<S, K> query, KeyValueGetter<S, K, V> getter, KeyValueSetter<S, K, V> setter)
+    {
+        return new ComposedKeyValue<>(key, query, getter, setter);
+    }
 }

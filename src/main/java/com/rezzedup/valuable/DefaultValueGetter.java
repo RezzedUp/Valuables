@@ -7,11 +7,11 @@
  */
 package com.rezzedup.valuable;
 
-public interface DefaultValueGetter<S, T> extends ValueGetter<S, T>
+public interface DefaultValueGetter<S, V> extends ValueGetter<S, V>
 {
-    T getDefaultValue();
+    V getDefaultValue();
     
-    default T getOrDefault(S storage)
+    default V getOrDefault(S storage)
     {
         return get(storage).orElseGet(this::getDefaultValue);
     }

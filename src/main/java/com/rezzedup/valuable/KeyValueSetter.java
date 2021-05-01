@@ -7,10 +7,10 @@
  */
 package com.rezzedup.valuable;
 
-import java.util.Optional;
+import pl.tlinkowski.annotation.basic.NullOr;
 
 @FunctionalInterface
-public interface ValueGetter<S, V>
+public interface KeyValueSetter<S, K, V>
 {
-    Optional<V> get(S storage);
+    void set(S storage, K key, @NullOr V value);
 }

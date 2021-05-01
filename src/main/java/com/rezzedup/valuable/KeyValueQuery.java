@@ -7,10 +7,8 @@
  */
 package com.rezzedup.valuable;
 
-import java.util.Optional;
-
 @FunctionalInterface
-public interface ValueGetter<S, V>
+public interface KeyValueQuery<S, K>
 {
-    Optional<V> get(S storage);
+    boolean isSet(S storage, K key);
 }

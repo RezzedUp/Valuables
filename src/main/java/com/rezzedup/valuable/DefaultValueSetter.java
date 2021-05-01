@@ -7,7 +7,7 @@
  */
 package com.rezzedup.valuable;
 
-public interface DefaultValueSetter<S, T> extends ValueSetter<S, T>
+public interface DefaultValueSetter<S, V> extends ValueSetter<S, V>
 {
     void setAsDefault(S storage);
 }

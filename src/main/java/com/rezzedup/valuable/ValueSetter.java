@@ -10,7 +10,7 @@ package com.rezzedup.valuable;
 import pl.tlinkowski.annotation.basic.NullOr;
 
 @FunctionalInterface
-public interface ValueSetter<S, T>
+public interface ValueSetter<S, V>
 {
-    void set(S storage, @NullOr T value);
+    void set(S storage, @NullOr V value);
 }

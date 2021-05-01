@@ -12,7 +12,7 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-final class ComposedDefaultKeyValue<S, K, V> implements DefaultKeyValue<S, K, V>
+class ComposedDefaultKeyValue<S, K, V> implements DefaultKeyValue<S, K, V>
 {
     private final V def;
     private final KeyValue<S, K, V> value;

@@ -12,7 +12,7 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-final class ComposedKeyValue<S, K, V> implements KeyValue<S, K, V>
+class ComposedKeyValue<S, K, V> implements KeyValue<S, K, V>
 {
     private final K key;
     private final KeyValueQuery<S, K> query;

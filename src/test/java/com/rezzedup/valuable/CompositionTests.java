@@ -25,9 +25,13 @@ public class CompositionTests
             DefaultKeyValue.compose(10, KeyValue.compose(
                 "ten", Map::containsKey, KeyValueGetter.maybe(Map::get), Map::put
             ));
-        
-        ten.setAsDefault(intsByName);
     
+        ten.setAsDefault(intsByName);
+        
+        DefaultMapValue<String, Integer> twelve = DefaultMapValue.at("twelve", 12);
+        twelve.setAsDefault(intsByName);
+        
         assertEquals(10, intsByName.get("ten"));
+        assertEquals(12, intsByName.get("twelve"));
     }
 }

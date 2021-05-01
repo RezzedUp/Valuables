@@ -12,7 +12,7 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-final class ComposedValue<S, V> implements Value<S, V>
+class ComposedValue<S, V> implements Value<S, V>
 {
     private final ValueQuery<S> query;
     private final ValueGetter<S, V> getter;

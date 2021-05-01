@@ -1,4 +1,6 @@
-package com.rezzedup.valuable;
+package com.rezzedup.util.valuable;
+
+import com.rezzedup.util.valuable.composition.ComposedDefaultMapValue;
 
 import java.util.Map;
 

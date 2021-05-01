@@ -5,10 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package com.rezzedup.valuable;
+package com.rezzedup.util.valuable;
 
 @FunctionalInterface
-public interface KeyHolder<K>
+public interface KeyValueQuery<S, K>
 {
-    K key();
+    boolean isSet(S storage, K key);
 }

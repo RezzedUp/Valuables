@@ -5,12 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package com.rezzedup.valuable;
+package com.rezzedup.util.valuable;
 
-public interface DefaultKeyValue<S, K, V> extends DefaultValue<S, V>, KeyValue<S, K, V>
+public interface DefaultValueSetter<S, V> extends ValueSetter<S, V>
 {
-    static <S, K, V> DefaultKeyValue<S, K, V> compose(V def, KeyValue<S, K, V> value)
-    {
-        return new ComposedDefaultKeyValue<>(def, value);
-    }
+    void setAsDefault(S storage);
 }

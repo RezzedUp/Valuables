@@ -5,23 +5,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package com.rezzedup.valuable;
+package com.rezzedup.util.valuable;
 
 import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @FunctionalInterface
-public interface KeyValueGetter<S, K, V>
+public interface ValueGetter<S, V>
 {
     @SuppressWarnings("ConstantConditions")
-    static <S, K, V> KeyValueGetter<S, K, V> maybe(BiFunction<S, K, @NullOr V> getter)
+    static <S, V> ValueGetter<S, V> maybe(Function<S, @NullOr V> getter)
     {
         Objects.requireNonNull(getter, "getter");
-        return (storage, key) -> Optional.ofNullable(getter.apply(storage, key));
+        return storage -> Optional.ofNullable(getter.apply(storage));
     }
     
-    Optional<V> get(S storage, K key);
+    Optional<V> get(S storage);
 }

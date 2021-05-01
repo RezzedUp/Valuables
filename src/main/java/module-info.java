@@ -9,5 +9,6 @@ module com.rezzedup.valuable
 {
     requires static pl.tlinkowski.annotation.basic;
     
-    exports com.rezzedup.valuable;
+    exports com.rezzedup.util.valuable;
+    exports com.rezzedup.util.valuable.composition;
 }

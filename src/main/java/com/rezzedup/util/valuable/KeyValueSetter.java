@@ -5,10 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package com.rezzedup.valuable;
+package com.rezzedup.util.valuable;
+
+import pl.tlinkowski.annotation.basic.NullOr;
 
 @FunctionalInterface
-public interface ValueQuery<S>
+public interface KeyValueSetter<S, K, V>
 {
-    boolean isSet(S storage);
+    void set(S storage, K key, @NullOr V value);
 }

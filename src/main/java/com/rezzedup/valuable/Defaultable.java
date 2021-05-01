@@ -7,10 +7,8 @@
  */
 package com.rezzedup.valuable;
 
-public interface DefaultValueGetter<S, V> extends Defaultable<V>, ValueGetter<S, V>
+@FunctionalInterface
+public interface Defaultable<V>
 {
-    default V getOrDefault(S storage)
-    {
-        return get(storage).orElseGet(this::getDefaultValue);
-    }
+    V getDefaultValue();
 }

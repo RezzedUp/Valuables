@@ -7,10 +7,10 @@
  */
 package com.rezzedup.valuable;
 
-public interface DefaultValueGetter<S, V> extends Defaultable<V>, ValueGetter<S, V>
+public interface DefaultKeyValue<S, K, V> extends DefaultValue<S, V>, KeyValue<S, K, V>
 {
-    default V getOrDefault(S storage)
+    static <S, K, V> DefaultKeyValue<S, K, V> compose(V def, KeyValue<S, K, V> value)
     {
-        return get(storage).orElseGet(this::getDefaultValue);
+        return new ComposedDefaultKeyValue<>(def, value);
     }
 }

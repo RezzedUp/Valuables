@@ -9,7 +9,7 @@ package com.rezzedup.valuable;
 
 public interface DefaultValue<S, V> extends DefaultValueGetter<S, V>, DefaultValueSetter<S, V>,  Value<S, V>
 {
-    static <S, V> DefaultValue<S, V> compose(T def, Value<S, V> value)
+    static <S, V> DefaultValue<S, V> compose(V def, Value<S, V> value)
     {
         return new ComposedDefaultValue<>(def, value);
     }

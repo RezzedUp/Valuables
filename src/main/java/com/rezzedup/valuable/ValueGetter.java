@@ -7,10 +7,21 @@
  */
 package com.rezzedup.valuable;
 
+import pl.tlinkowski.annotation.basic.NullOr;
+
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 @FunctionalInterface
 public interface ValueGetter<S, V>
 {
+    @SuppressWarnings("ConstantConditions")
+    static <S, V> ValueGetter<S, V> maybe(Function<S, @NullOr V> getter)
+    {
+        Objects.requireNonNull(getter, "getter");
+        return storage -> Optional.ofNullable(getter.apply(storage));
+    }
+    
     Optional<V> get(S storage);
 }

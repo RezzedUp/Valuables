@@ -1,25 +1,25 @@
 /*
- * Copyright © 2021, RezzedUp <https://github.com/RezzedUp/Valuable>
+ * Copyright © 2021, RezzedUp <https://github.com/RezzedUp/Valuables>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package com.rezzedup.util.valuable.composition;
+package com.rezzedup.util.valuables.composition;
 
-import com.rezzedup.util.valuable.Value;
-import com.rezzedup.util.valuable.DefaultValue;
+import com.rezzedup.util.valuables.DefaultKeyValue;
+import com.rezzedup.util.valuables.KeyValue;
 import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public class ComposedDefaultValue<S, V> implements DefaultValue<S, V>
+public class ComposedDefaultKeyValue<S, K, V> implements DefaultKeyValue<S, K, V>
 {
     private final V def;
-    private final Value<S, V> value;
+    private final KeyValue<S, K, V> value;
     
-    public ComposedDefaultValue(V def, Value<S, V> value)
+    public ComposedDefaultKeyValue(V def, KeyValue<S, K, V> value)
     {
         this.def = Objects.requireNonNull(def, "def");
         this.value = Objects.requireNonNull(value, "value");
@@ -30,6 +30,13 @@ public class ComposedDefaultValue<S, V> implements DefaultValue<S, V>
     public final V getDefaultValue()
     {
         return def;
+    }
+    
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public final K key()
+    {
+        return value.key();
     }
     
     @Override

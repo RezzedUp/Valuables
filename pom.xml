@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.rezzedup</groupId>
-    <artifactId>valuable</artifactId>
+    <groupId>com.rezzedup.util</groupId>
+    <artifactId>valuables</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Valuable</name>
+    <name>Valuables</name>
     <inceptionYear>2021</inceptionYear>
     <description>Get and set values.</description>
-    <url>https://github.com/RezzedUp/Valuable</url>
+    <url>https://github.com/RezzedUp/Valuables</url>
 
     <licenses>
         <license>
@@ -28,14 +28,14 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/RezzedUp/Valuable.git</connection>
-        <developerConnection>scm:git:ssh://github.com:RezzedUp/Valuable.git</developerConnection>
-        <url>http://github.com/RezzedUp/Valuable</url>
+        <connection>scm:git:git://github.com/RezzedUp/Valuables.git</connection>
+        <developerConnection>scm:git:ssh://github.com:RezzedUp/Valuables.git</developerConnection>
+        <url>http://github.com/RezzedUp/Valuables</url>
     </scm>
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/RezzedUp/Valuable/issues</url>
+        <url>https://github.com/RezzedUp/Valuables/issues</url>
     </issueManagement>
 
     <properties>
@@ -46,7 +46,7 @@
         <!-- License headers -->
         <license.header.year>${project.inceptionYear}</license.header.year>
         <license.header.owner>RezzedUp</license.header.owner>
-        <license.header.url>https://github.com/RezzedUp/Valuable</license.header.url>
+        <license.header.url>https://github.com/RezzedUp/Valuables</license.header.url>
     </properties>
 
     <dependencies>

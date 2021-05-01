@@ -10,7 +10,7 @@
 
     <name>Valuables</name>
     <inceptionYear>2021</inceptionYear>
-    <description>Get and set values.</description>
+    <description>Utilities for getting, setting, and composing values.</description>
     <url>https://github.com/RezzedUp/Valuables</url>
 
     <licenses>

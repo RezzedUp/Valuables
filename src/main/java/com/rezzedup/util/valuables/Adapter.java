@@ -33,4 +33,15 @@ public interface Adapter<O, V> extends Deserializer<V, O>, Serializer<V, O>
     {
         return (Adapter<V, V>) Adapters.IDENTITY;
     }
+    
+    static <O, V extends O> Adapter<O, V> subtype(Deserializer<V, O> deserializer)
+    {
+        return of(
+            output -> {
+                try { return deserializer.deserialize(output); }
+                catch (ClassCastException e) { return null; }
+            },
+            val -> (O) val
+        );
+    }
 }

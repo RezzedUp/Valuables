@@ -19,19 +19,25 @@ public class CompositionTests
     @Test
     public void testMapComposition()
     {
-        Map<String, Integer> intsByName = new HashMap<>();
+        Map<String, Number> numbersByName = new HashMap<>();
         
-        DefaultKeyValue<Map<String, Integer>, String, Integer> ten =
+        DefaultKeyValue<Map<String, Number>, String, Number> ten =
             DefaultKeyValue.of(10, KeyValue.of(
                 "ten", Map::containsKey, KeyValueGetter.maybe(Map::get), Map::put
             ));
     
-        ten.setAsDefault(intsByName);
+        ten.setAsDefault(numbersByName);
         
-        DefaultMapValue<String, Integer> twelve = DefaultMapValue.of("twelve", 12);
-        twelve.setAsDefault(intsByName);
+        DefaultMapValue<String, Number> twelve = DefaultMapValue.of("twelve", 12);
+        twelve.setAsDefault(numbersByName);
         
-        assertEquals(10, intsByName.get("ten"));
-        assertEquals(12, intsByName.get("twelve"));
+        DefaultAdaptedMapValue<String, Number, Double> fiveAndAHalf =
+            DefaultAdaptedMapValue.of("fiveAndAHalf", 5.5, Adapter.subtype(num -> (Double) num));
+        
+        fiveAndAHalf.setAsDefault(numbersByName);
+        
+        assertEquals(10, numbersByName.get("ten"));
+        assertEquals(12, numbersByName.get("twelve"));
+        assertEquals(5.5, numbersByName.get("fiveAndAHalf"));
     }
 }

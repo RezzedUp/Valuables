@@ -27,6 +27,11 @@ public interface AdaptedMapValue<K, O, V> extends AdaptedKeyValue<Map<K, O>, O, 
         };
     }
     
+    static <K, O, V> AdaptedMapValue<K, O, V> of(K key, Adapter<O, V> adapter)
+    {
+        return of(key, MapAdapter.of(adapter));
+    }
+    
     @Override
     default boolean isSet(Map<K, O> storage)
     {

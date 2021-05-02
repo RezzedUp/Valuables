@@ -10,5 +10,4 @@ module com.rezzedup.util.valuables
     requires static pl.tlinkowski.annotation.basic;
     
     exports com.rezzedup.util.valuables;
-    exports com.rezzedup.util.valuables.composition;
 }

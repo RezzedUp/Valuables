@@ -8,7 +8,28 @@
 package com.rezzedup.util.valuables;
 
 import java.util.Map;
+import java.util.Objects;
 
 public interface AdaptedMapValue<K, O, V> extends AdaptedKeyValue<Map<K, O>, O, K, V>
 {
+    static <K, O, V> AdaptedMapValue<K, O, V> of(K key, KeyValueAdapter<Map<K, O>, O, K, V> adapter)
+    {
+        Objects.requireNonNull(key, "key");
+        Objects.requireNonNull(adapter, "adapter");
+        
+        return new AdaptedMapValue<>()
+        {
+            @Override
+            public KeyValueAdapter<Map<K, O>, O, K, V> adapter() { return adapter; }
+    
+            @Override
+            public K key() { return key; }
+        };
+    }
+    
+    @Override
+    default boolean isSet(Map<K, O> storage)
+    {
+        return storage.containsKey(key());
+    }
 }

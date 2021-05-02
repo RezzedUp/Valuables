@@ -9,10 +9,30 @@ package com.rezzedup.util.valuables;
 
 import pl.tlinkowski.annotation.basic.NullOr;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<KeyValueAdapter<S, O, K, V>>, KeyValue<S, K, V>
 {
+    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> of(K key, KeyValueQuery<S, K> query, KeyValueAdapter<S, O, K, V> adapter)
+    {
+        Objects.requireNonNull(key, "key");
+        Objects.requireNonNull(query, "query");
+        Objects.requireNonNull(adapter, "adapter");
+        
+        return new AdaptedKeyValue<>()
+        {
+            @Override
+            public KeyValueAdapter<S, O, K, V> adapter() { return adapter; }
+    
+            @Override
+            public K key() { return key; }
+    
+            @Override
+            public boolean isSet(S storage) { return query.isSet(storage, key); }
+        };
+    }
+    
     @Override
     default Optional<V> get(S storage)
     {

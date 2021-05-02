@@ -7,6 +7,28 @@
  */
 package com.rezzedup.util.valuables;
 
+import java.util.Objects;
+
 public interface DefaultAdaptedKeyValue<S, O, K, V> extends AdaptedKeyValue<S, O, K, V>, DefaultKeyValue<S, K, V>
 {
+    static <S, O, K, V> DefaultAdaptedKeyValue<S, O, K, V> of(V def, AdaptedKeyValue<S, O, K, V> value)
+    {
+        Objects.requireNonNull(def, "def");
+        Objects.requireNonNull(value, "value");
+        
+        return new DefaultAdaptedKeyValue<>()
+        {
+            @Override
+            public KeyValueAdapter<S, O, K, V> adapter() { return value.adapter(); }
+            
+            @Override
+            public V getDefaultValue() { return def; }
+            
+            @Override
+            public K key() { return value.key(); }
+            
+            @Override
+            public boolean isSet(S storage) { return value.isSet(storage); }
+        };
+    }
 }

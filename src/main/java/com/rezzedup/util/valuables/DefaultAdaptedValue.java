@@ -7,6 +7,25 @@
  */
 package com.rezzedup.util.valuables;
 
+import java.util.Objects;
+
 public interface DefaultAdaptedValue<S, O, V> extends AdaptedValue<S, O, V>, DefaultValue<S, V>
 {
+    static <S, O, V> DefaultAdaptedValue<S, O, V> of(V def, AdaptedValue<S, O, V> value)
+    {
+        Objects.requireNonNull(def, "def");
+        Objects.requireNonNull(value, "value");
+        
+        return new DefaultAdaptedValue<>()
+        {
+            @Override
+            public V getDefaultValue() { return def; }
+            
+            @Override
+            public ValueAdapter<S, O, V> adapter() { return value.adapter(); }
+            
+            @Override
+            public boolean isSet(S storage) { return value.isSet(storage); }
+        };
+    }
 }

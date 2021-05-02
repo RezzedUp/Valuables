@@ -7,14 +7,35 @@
  */
 package com.rezzedup.util.valuables;
 
-import com.rezzedup.util.valuables.composition.ComposedDefaultMapValue;
+import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 public interface DefaultMapValue<K, V> extends DefaultKeyValue<Map<K, V>, K, V>, MapValue<K, V>
 {
-    static <K, V> DefaultMapValue<K, V> at(K key, V def)
+    static <K, V> DefaultMapValue<K, V> of(K key, V def)
     {
-        return new ComposedDefaultMapValue<>(def, MapValue.at(key));
+        MapValue<K, V> value = MapValue.of(key);
+        Objects.requireNonNull(def, "def");
+        
+        return new DefaultMapValue<>()
+        {
+            @Override
+            public K key() { return value.key(); }
+    
+            @Override
+            public V getDefaultValue() { return def; }
+    
+            @Override
+            public boolean isSet(Map<K, V> storage) { return value.isSet(storage); }
+    
+            @Override
+            public Optional<V> get(Map<K, V> storage) { return value.get(storage); }
+    
+            @Override
+            public void set(Map<K, V> storage, @NullOr V updated) { value.set(storage, updated); }
+        };
     }
 }

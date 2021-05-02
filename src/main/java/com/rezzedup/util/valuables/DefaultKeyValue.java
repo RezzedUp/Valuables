@@ -7,12 +7,34 @@
  */
 package com.rezzedup.util.valuables;
 
-import com.rezzedup.util.valuables.composition.ComposedDefaultKeyValue;
+import pl.tlinkowski.annotation.basic.NullOr;
+
+import java.util.Objects;
+import java.util.Optional;
 
 public interface DefaultKeyValue<S, K, V> extends DefaultValue<S, V>, KeyValue<S, K, V>
 {
-    static <S, K, V> DefaultKeyValue<S, K, V> compose(V def, KeyValue<S, K, V> value)
+    static <S, K, V> DefaultKeyValue<S, K, V> of(V def, KeyValue<S, K, V> value)
     {
-        return new ComposedDefaultKeyValue<>(def, value);
+        Objects.requireNonNull(def, "def");
+        Objects.requireNonNull(value, "value");
+        
+        return new DefaultKeyValue<>()
+        {
+            @Override
+            public V getDefaultValue() { return def; }
+    
+            @Override
+            public K key() { return value.key(); }
+    
+            @Override
+            public Optional<V> get(S storage) { return value.get(storage); }
+    
+            @Override
+            public boolean isSet(S storage) { return value.isSet(storage); }
+    
+            @Override
+            public void set(S storage, @NullOr V updated) { value.set(storage, updated); }
+        };
     }
 }

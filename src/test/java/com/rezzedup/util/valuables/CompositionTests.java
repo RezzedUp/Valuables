@@ -22,13 +22,13 @@ public class CompositionTests
         Map<String, Integer> intsByName = new HashMap<>();
         
         DefaultKeyValue<Map<String, Integer>, String, Integer> ten =
-            DefaultKeyValue.compose(10, KeyValue.compose(
+            DefaultKeyValue.of(10, KeyValue.of(
                 "ten", Map::containsKey, KeyValueGetter.maybe(Map::get), Map::put
             ));
     
         ten.setAsDefault(intsByName);
         
-        DefaultMapValue<String, Integer> twelve = DefaultMapValue.at("twelve", 12);
+        DefaultMapValue<String, Integer> twelve = DefaultMapValue.of("twelve", 12);
         twelve.setAsDefault(intsByName);
         
         assertEquals(10, intsByName.get("ten"));

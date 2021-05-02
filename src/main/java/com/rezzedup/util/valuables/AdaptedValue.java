@@ -9,10 +9,26 @@ package com.rezzedup.util.valuables;
 
 import pl.tlinkowski.annotation.basic.NullOr;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public interface AdaptedValue<S, O, V> extends Adaptable<ValueAdapter<S, O, V>>, Value<S, V>
 {
+    static <S, O, V> AdaptedValue<S, O, V> of(ValueAdapter<S, O, V> adapter, ValueQuery<S> query)
+    {
+        Objects.requireNonNull(adapter, "adapter");
+        Objects.requireNonNull(query, "query");
+        
+        return new AdaptedValue<>()
+        {
+            @Override
+            public ValueAdapter<S, O, V> adapter() { return adapter; }
+    
+            @Override
+            public boolean isSet(S storage) { return query.isSet(storage); }
+        };
+    }
+    
     @Override
     default Optional<V> get(S storage)
     {

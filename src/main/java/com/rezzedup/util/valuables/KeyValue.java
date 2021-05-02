@@ -7,12 +7,33 @@
  */
 package com.rezzedup.util.valuables;
 
-import com.rezzedup.util.valuables.composition.ComposedKeyValue;
+import pl.tlinkowski.annotation.basic.NullOr;
+
+import java.util.Objects;
+import java.util.Optional;
 
 public interface KeyValue<S, K, V> extends KeyHolder<K>, Value<S, V>
 {
-    static <S, K, V> KeyValue<S, K, V> compose(K key, KeyValueQuery<S, K> query, KeyValueGetter<S, K, V> getter, KeyValueSetter<S, K, V> setter)
+    static <S, K, V> KeyValue<S, K, V> of(K key, KeyValueQuery<S, K> query, KeyValueGetter<S, K, V> getter, KeyValueSetter<S, K, V> setter)
     {
-        return new ComposedKeyValue<>(key, query, getter, setter);
+        Objects.requireNonNull(key, "key");
+        Objects.requireNonNull(query, "query");
+        Objects.requireNonNull(getter, "getter");
+        Objects.requireNonNull(setter, "setter");
+       
+        return new KeyValue<>()
+        {
+            @Override
+            public final K key() { return key; }
+            
+            @Override
+            public final boolean isSet(S storage) { return query.isSet(storage, key); }
+            
+            @Override
+            public final Optional<V> get(S storage) { return getter.get(storage, key); }
+            
+            @Override
+            public final void set(S storage, @NullOr V value) { setter.set(storage, key, value); }
+        };
     }
 }

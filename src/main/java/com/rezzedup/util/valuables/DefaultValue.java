@@ -19,6 +19,12 @@ public interface DefaultValue<S, V> extends DefaultValueGetter<S, V>, DefaultVal
     @Override
     default void setAsDefault(S storage)
     {
+        set(storage, getDefaultValue());
+    }
+    
+    @Override
+    default void setAsDefaultIfUnset(S storage)
+    {
         if (!isSet(storage)) { set(storage, getDefaultValue()); }
     }
 }

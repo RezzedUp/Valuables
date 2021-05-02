@@ -10,4 +10,6 @@ package com.rezzedup.util.valuables;
 public interface DefaultValueSetter<S, V> extends ValueSetter<S, V>
 {
     void setAsDefault(S storage);
+    
+    void setAsDefaultIfUnset(S storage);
 }

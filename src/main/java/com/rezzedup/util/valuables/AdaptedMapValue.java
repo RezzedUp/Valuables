@@ -7,14 +7,8 @@
  */
 package com.rezzedup.util.valuables;
 
-import com.rezzedup.util.valuables.composition.ComposedDefaultMapValue;
-
 import java.util.Map;
 
-public interface DefaultMapValue<K, V> extends DefaultKeyValue<Map<K, V>, K, V>, MapValue<K, V>
+public interface AdaptedMapValue<K, O, V> extends AdaptedKeyValue<Map<K, O>, O, K, V>
 {
-    static <K, V> DefaultMapValue<K, V> at(K key, V def)
-    {
-        return new ComposedDefaultMapValue<>(def, MapValue.at(key));
-    }
 }

@@ -11,9 +11,9 @@ import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.util.Objects;
 
-public interface Adapter<O, V> extends Deserializer<V, O>, Serializer<V, O>
+public interface Adapter<O, V> extends Deserializer<O, V>, Serializer<V, O>
 {
-    static <O, V> Adapter<O, V> of(Deserializer<V, O> deserializer, Serializer<V, O> serializer)
+    static <O, V> Adapter<O, V> of(Deserializer<O, V> deserializer, Serializer<V, O> serializer)
     {
         Objects.requireNonNull(deserializer, "deserializer");
         Objects.requireNonNull(serializer, "serializer");
@@ -21,10 +21,10 @@ public interface Adapter<O, V> extends Deserializer<V, O>, Serializer<V, O>
         return new Adapter<O, V>()
         {
             @Override
-            public @NullOr V deserialize(O output) { return deserializer.deserialize(output); }
+            public @NullOr V deserialize(O serialized) { return deserializer.deserialize(serialized); }
     
             @Override
-            public @NullOr O serialize(V input) { return serializer.serialize(input); }
+            public @NullOr O serialize(V deserialized) { return serializer.serialize(deserialized); }
         };
     }
     
@@ -34,14 +34,14 @@ public interface Adapter<O, V> extends Deserializer<V, O>, Serializer<V, O>
         return (Adapter<V, V>) Adapters.IDENTITY;
     }
     
-    static <O, V extends O> Adapter<O, V> subtype(Deserializer<V, O> deserializer)
+    static <O, V extends O> Adapter<O, V> subtype(Deserializer<O, V> deserializer)
     {
         return of(
-            output -> {
-                try { return deserializer.deserialize(output); }
+            serialized -> {
+                try { return deserializer.deserialize(serialized); }
                 catch (ClassCastException e) { return null; }
             },
-            val -> (O) val
+            deserialized -> (O) deserialized
         );
     }
 }

@@ -21,10 +21,10 @@ public interface MapAdapter<K, O, V> extends KeyValueAdapter<Map<K, O>, O, K, V>
         return new MapAdapter<>()
         {
             @Override
-            public @NullOr V deserialize(O output) { return adapter.deserialize(output); }
+            public @NullOr V deserialize(O serialized) { return adapter.deserialize(serialized); }
     
             @Override
-            public @NullOr O serialize(V input) { return adapter.serialize(input); }
+            public @NullOr O serialize(V deserialized) { return adapter.serialize(deserialized); }
         };
     }
     

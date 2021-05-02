@@ -36,10 +36,10 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
             }
     
             @Override
-            public @NullOr O serialize(V input) { return adapter.serialize(input); }
+            public @NullOr O serialize(V deserialized) { return adapter.serialize(deserialized); }
     
             @Override
-            public @NullOr V deserialize(O output) { return adapter.deserialize(output); }
+            public @NullOr V deserialize(O serialized) { return adapter.deserialize(serialized); }
         };
     }
     

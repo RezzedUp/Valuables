@@ -10,7 +10,7 @@ package com.rezzedup.util.valuables;
 import pl.tlinkowski.annotation.basic.NullOr;
 
 @FunctionalInterface
-public interface Deserializer<I, O>
+public interface Deserializer<S, D>
 {
-    @NullOr I deserialize(O output);
+    @NullOr D deserialize(S serialized);
 }

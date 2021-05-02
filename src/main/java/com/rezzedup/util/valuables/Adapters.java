@@ -14,9 +14,9 @@ final class Adapters
     static final Adapter<?, ?> IDENTITY = new Adapter<>()
     {
         @Override
-        public Object deserialize(Object output) { return output; }
+        public Object deserialize(Object serialized) { return serialized; }
     
         @Override
-        public Object serialize(Object input) { return input; }
+        public Object serialize(Object deserialized) { return deserialized; }
     };
 }

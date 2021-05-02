@@ -13,4 +13,9 @@ import pl.tlinkowski.annotation.basic.NullOr;
 public interface ValueSetter<S, V>
 {
     void set(S storage, @NullOr V value);
+    
+    default void remove(S storage)
+    {
+        set(storage, null);
+    }
 }

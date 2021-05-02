@@ -9,8 +9,28 @@ package com.rezzedup.util.valuables;
 
 import pl.tlinkowski.annotation.basic.NullOr;
 
-@FunctionalInterface
-public interface Adapter<O, V>
+import java.util.Objects;
+
+public interface Adapter<O, V> extends Deserializer<V, O>, Serializer<V, O>
 {
-    @NullOr O adapt(V value);
+    static <O, V> Adapter<O, V> of(Deserializer<V, O> deserializer, Serializer<V, O> serializer)
+    {
+        Objects.requireNonNull(deserializer, "deserializer");
+        Objects.requireNonNull(serializer, "serializer");
+        
+        return new Adapter<O, V>()
+        {
+            @Override
+            public @NullOr V deserialize(O output) { return deserializer.deserialize(output); }
+    
+            @Override
+            public @NullOr O serialize(V input) { return serializer.serialize(input); }
+        };
+    }
+    
+    @SuppressWarnings("unchecked")
+    static <V> Adapter<V, V> identity()
+    {
+        return (Adapter<V, V>) Adapters.IDENTITY;
+    }
 }

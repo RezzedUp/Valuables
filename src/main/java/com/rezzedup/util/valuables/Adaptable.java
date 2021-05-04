@@ -7,6 +7,11 @@
  */
 package com.rezzedup.util.valuables;
 
+/**
+ * Provides an adapter.
+ *
+ * @param <A>   specific adapter type
+ */
 public interface Adaptable<A extends Adapter<?, ?>>
 {
     A adapter();

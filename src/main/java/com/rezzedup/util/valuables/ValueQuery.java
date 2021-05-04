@@ -7,8 +7,22 @@
  */
 package com.rezzedup.util.valuables;
 
+/**
+ * Checks whether or not a value exists in storage.
+ *
+ * @param <S>   storage type
+ */
 @FunctionalInterface
 public interface ValueQuery<S>
 {
+    /**
+     * Checks whether or not the value exists
+     * within the provided storage.
+     *
+     * @param storage   the storage
+     *
+     * @return  {@code true} if the value exists,
+     *          otherwise {@code false}
+     */
     boolean isSet(S storage);
 }

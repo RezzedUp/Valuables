@@ -13,9 +13,24 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * Gets a possible value from storage.
+ *
+ * @param <S>   storage type
+ * @param <V>   value type
+ */
 @FunctionalInterface
 public interface ValueGetter<S, V>
 {
+    /**
+     * Converts a direct getter into a possible value getter.
+     *
+     * @param getter    direct getter
+     * @param <S>       storage type
+     * @param <V>       value type
+     *
+     * @return  the direct getter wrapped by an optional
+     */
     @SuppressWarnings("ConstantConditions")
     static <S, V> ValueGetter<S, V> maybe(Function<S, @NullOr V> getter)
     {
@@ -23,5 +38,13 @@ public interface ValueGetter<S, V>
         return storage -> Optional.ofNullable(getter.apply(storage));
     }
     
+    /**
+     * Gets the possible value from storage.
+     *
+     * @param storage   storage where the value may exist
+     *
+     * @return  the value if it was successfully
+     *          retrieved, otherwise empty
+     */
     Optional<V> get(S storage);
 }

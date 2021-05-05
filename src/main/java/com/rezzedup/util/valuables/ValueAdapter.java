@@ -13,7 +13,7 @@ import java.util.Objects;
 
 /**
  * Conversion layer between a value and its underlying storage,
- * which internally represents values in a different output type.
+ * which internally represents the value in a different output type.
  *
  * @param <S>   storage type
  * @param <O>   output type
@@ -22,8 +22,8 @@ import java.util.Objects;
 public interface ValueAdapter<S, O, V> extends Adapter<O, V>
 {
     /**
-     * Creates a new value adapter by composing a direct getter,
-     * direct setter, and an existing compatible adapter.
+     * Creates a new value adapter composed of the provided
+     * direct getter, setter, and an existing compatible adapter.
      *
      * @param getter    direct getter
      * @param setter    direct setter
@@ -37,7 +37,7 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
      *
      * @throws NullPointerException     if any argument is {@code null}
      */
-    static <S, O, V> ValueAdapter<S, O, V> of(Getter<S, O> getter, Setter<S, O> setter, Adapter<O, V> adapter)
+    static <S, O, V> ValueAdapter<S, O, V> of(DirectGetter<S, O> getter, DirectSetter<S, O> setter, Adapter<O, V> adapter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
@@ -68,7 +68,7 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
     }
     
     /**
-     * Gets and adapts the possibly-{@code null} value
+     * Gets and converts the possibly-{@code null} value
      * directly from the provided storage.
      *
      * @param storage   the storage
@@ -79,22 +79,60 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
     @NullOr V get(S storage);
     
     /**
-     * Sets and adapts the value directly into the provided
+     * Converts and sets the value directly into the provided
      * storage or removes it if it's {@code null}.
      *
-     * @param storage
-     * @param value
+     * @param storage   the storage
+     * @param value     the value to set
+     *                  or {@code null} to remove
      */
     void set(S storage, @NullOr V value);
     
+    //
+    //  Specialized interfaces for direct getters & setters
+    //  (and for proper nullness).
+    //
+    
+    /**
+     * A "direct getter" where the value is retrieved
+     * in its original type directly from storage.
+     *
+     * @param <S>   storage type
+     * @param <O>   output type
+     */
     @FunctionalInterface
-    interface Getter<S, O>
+    interface DirectGetter<S, O>
     {
+        /**
+         * Gets the value in its original type directly from
+         * the provided storage.
+         *
+         * @param storage   the storage
+         *
+         * @return  the original value or {@code null}
+         */
         @NullOr O get(S storage);
     }
     
-    interface Setter<S, O>
+    /**
+     * A "direct setter" where the value is set in the
+     * required output type directly into storage.
+     *
+     * @param <S>   storage type
+     * @param <O>   output type
+     */
+    interface DirectSetter<S, O>
     {
+        /**
+         * Sets the possibly-{@code null} value in its required
+         * output type directly into storage.
+         *
+         * @param storage   the storage
+         * @param output    the value or {@code null}
+         *
+         * @implNote    If the provided value is {@code null},
+         *              it is expected to be removed from storage.
+         */
         void set(S storage, @NullOr O output);
     }
 }

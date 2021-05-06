@@ -7,6 +7,8 @@
  */
 package com.rezzedup.util.valuables;
 
+import pl.tlinkowski.annotation.basic.NullOr;
+
 final class Adapters
 {
     private Adapters() { throw new UnsupportedOperationException(); }
@@ -18,5 +20,13 @@ final class Adapters
     
         @Override
         public Object serialize(Object deserialized) { return deserialized; }
+    };
+    
+    static final Adapter<?, ?> NULL = new Adapter<>() {
+        @Override
+        public @NullOr Object deserialize(Object serialized) { return null; }
+    
+        @Override
+        public @NullOr Object serialize(Object deserialized) { return null; }
     };
 }

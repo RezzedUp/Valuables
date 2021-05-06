@@ -18,7 +18,7 @@ public interface Adapter<O, V> extends Deserializer<O, V>, Serializer<V, O>
         Objects.requireNonNull(deserializer, "deserializer");
         Objects.requireNonNull(serializer, "serializer");
         
-        return new Adapter<O, V>()
+        return new Adapter<>()
         {
             @Override
             public @NullOr V deserialize(O serialized) { return deserializer.deserialize(serialized); }
@@ -32,6 +32,12 @@ public interface Adapter<O, V> extends Deserializer<O, V>, Serializer<V, O>
     static <V> Adapter<V, V> identity()
     {
         return (Adapter<V, V>) Adapters.IDENTITY;
+    }
+    
+    @SuppressWarnings("unchecked")
+    static <O, V> Adapter<O, V> nulls()
+    {
+        return (Adapter<O, V>) Adapters.NULL;
     }
     
     static <O, V extends O> Adapter<O, V> subtype(Deserializer<O, V> deserializer)

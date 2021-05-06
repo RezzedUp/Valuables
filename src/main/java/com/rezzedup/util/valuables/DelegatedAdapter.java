@@ -19,7 +19,7 @@ import java.util.Objects;
  * @param <O>   output type
  * @param <V>   value type
  */
-public interface ValueAdapter<S, O, V> extends Adapter<O, V>
+public interface DelegatedAdapter<S, O, V> extends Adapter<O, V>
 {
     /**
      * Creates a new value adapter composed of the provided
@@ -37,13 +37,13 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
      *
      * @throws NullPointerException     if any argument is {@code null}
      */
-    static <S, O, V> ValueAdapter<S, O, V> adapted(Getter<S, O> getter, Setter<S, O> setter, Adapter<O, V> adapter)
+    static <S, O, V> DelegatedAdapter<S, O, V> adapted(Getter<S, O> getter, Setter<S, O> setter, Adapter<O, V> adapter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
         Objects.requireNonNull(adapter, "adapter");
         
-        return new ValueAdapter<>()
+        return new DelegatedAdapter<>()
         {
             @Override
             public @NullOr V get(S storage)
@@ -67,12 +67,12 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
         };
     }
     
-    static <S, O, V> ValueAdapter<S, O, V> direct(Getter<S, V> getter, Setter<S, V> setter)
+    static <S, O, V> DelegatedAdapter<S, O, V> direct(Getter<S, V> getter, Setter<S, V> setter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
         
-        return new ValueAdapter<>()
+        return new DelegatedAdapter<>()
         {
             @Override
             public @NullOr V get(S storage)

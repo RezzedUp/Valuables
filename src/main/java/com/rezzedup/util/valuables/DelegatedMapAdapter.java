@@ -12,13 +12,13 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Map;
 import java.util.Objects;
 
-public interface MapAdapter<K, O, V> extends KeyValueAdapter<Map<K, O>, O, K, V>
+public interface DelegatedMapAdapter<K, O, V> extends DelegatedKeyAdapter<Map<K, O>, O, K, V>
 {
-    static <K, O, V> MapAdapter<K, O, V> of(Adapter<O, V> adapter)
+    static <K, O, V> DelegatedMapAdapter<K, O, V> of(Adapter<O, V> adapter)
     {
         Objects.requireNonNull(adapter, "adapter");
         
-        return new MapAdapter<>()
+        return new DelegatedMapAdapter<>()
         {
             @Override
             public @NullOr V deserialize(O serialized) { return adapter.deserialize(serialized); }

@@ -12,9 +12,9 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-public interface AdaptedValue<S, O, V> extends Adaptable<ValueAdapter<S, O, V>>, Value<S, V>
+public interface AdaptedValue<S, O, V> extends Adaptable<DelegatedAdapter<S, O, V>>, Value<S, V>
 {
-    static <S, O, V> AdaptedValue<S, O, V> of(ValueAdapter<S, O, V> adapter)
+    static <S, O, V> AdaptedValue<S, O, V> of(DelegatedAdapter<S, O, V> adapter)
     {
         Objects.requireNonNull(adapter, "adapter");
         return () -> adapter;

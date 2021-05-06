@@ -22,7 +22,7 @@ public interface DefaultAdaptedValue<S, O, V> extends AdaptedValue<S, O, V>, Def
             public V getDefaultValue() { return def; }
             
             @Override
-            public ValueAdapter<S, O, V> adapter() { return value.adapter(); }
+            public DelegatedAdapter<S, O, V> adapter() { return value.adapter(); }
         };
     }
 }

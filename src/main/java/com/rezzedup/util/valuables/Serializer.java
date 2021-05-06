@@ -18,5 +18,5 @@ public interface Serializer<D, S>
         return deserialized -> (S) deserialized;
     }
     
-    @NullOr S serialize(D deserialized);
+    public @NullOr S serialize(D deserialized); // redundantly 'public' for proper @NullOr placement
 }

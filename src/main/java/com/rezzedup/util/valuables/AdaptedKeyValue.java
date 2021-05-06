@@ -12,9 +12,9 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<KeyValueAdapter<S, O, K, V>>, KeyValue<S, K, V>
+public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<DelegatedKeyAdapter<S, O, K, V>>, KeyValue<S, K, V>
 {
-    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> of(K key, KeyValueAdapter<S, O, K, V> adapter)
+    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> of(K key, DelegatedKeyAdapter<S, O, K, V> adapter)
     {
         Objects.requireNonNull(key, "key");
         Objects.requireNonNull(adapter, "adapter");
@@ -22,7 +22,7 @@ public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<KeyValueAdapter<S
         return new AdaptedKeyValue<>()
         {
             @Override
-            public KeyValueAdapter<S, O, K, V> adapter() { return adapter; }
+            public DelegatedKeyAdapter<S, O, K, V> adapter() { return adapter; }
     
             @Override
             public K key() { return key; }

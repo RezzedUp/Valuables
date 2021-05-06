@@ -19,7 +19,7 @@ public interface DefaultAdaptedKeyValue<S, O, K, V> extends AdaptedKeyValue<S, O
         return new DefaultAdaptedKeyValue<>()
         {
             @Override
-            public KeyValueAdapter<S, O, K, V> adapter() { return value.adapter(); }
+            public DelegatedKeyAdapter<S, O, K, V> adapter() { return value.adapter(); }
             
             @Override
             public V getDefaultValue() { return def; }

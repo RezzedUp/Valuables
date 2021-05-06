@@ -11,15 +11,15 @@ import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.util.Objects;
 
-public interface KeyValueAdapter<S, O, K, V> extends Adapter<O, V>
+public interface DelegatedKeyAdapter<S, O, K, V> extends Adapter<O, V>
 {
-    static <S, O, K, V> KeyValueAdapter<S, O, K, V> adapted(KeyGetter<S, K, O> getter, KeySetter<S, K, O> setter, Adapter<O, V> adapter)
+    static <S, O, K, V> DelegatedKeyAdapter<S, O, K, V> adapted(KeyGetter<S, K, O> getter, KeySetter<S, K, O> setter, Adapter<O, V> adapter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
         Objects.requireNonNull(adapter, "adapter");
         
-        return new KeyValueAdapter<>()
+        return new DelegatedKeyAdapter<>()
         {
             @Override
             public @NullOr V get(S storage, K key)
@@ -43,12 +43,12 @@ public interface KeyValueAdapter<S, O, K, V> extends Adapter<O, V>
         };
     }
     
-    static <S, O, K, V> KeyValueAdapter<S, O, K, V> direct(KeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
+    static <S, O, K, V> DelegatedKeyAdapter<S, O, K, V> direct(KeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
         
-        return new KeyValueAdapter<>()
+        return new DelegatedKeyAdapter<>()
         {
             @Override
             public @NullOr V get(S storage, K key) { return getter.get(storage, key); }

@@ -7,20 +7,16 @@
  */
 package com.rezzedup.util.valuables;
 
-import pl.tlinkowski.annotation.basic.NullOr;
-
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiFunction;
 
 @FunctionalInterface
-public interface KeyValueGetter<S, K, V>
+public interface MaybeKeyGetter<S, K, V>
 {
-    @SuppressWarnings("ConstantConditions")
-    static <S, K, V> KeyValueGetter<S, K, V> maybe(BiFunction<S, K, @NullOr V> getter)
+    static <S, K, V> MaybeKeyGetter<S, K, V> maybe(KeyGetter<S, K, V> getter)
     {
         Objects.requireNonNull(getter, "getter");
-        return (storage, key) -> Optional.ofNullable(getter.apply(storage, key));
+        return (storage, key) -> Optional.ofNullable(getter.get(storage, key));
     }
     
     Optional<V> get(S storage, K key);

@@ -25,9 +25,6 @@ public interface MapValue<K, V> extends KeyValue<Map<K, V>, K, V>
             public K key() { return key; }
     
             @Override
-            public boolean isSet(Map<K, V> storage) { return storage.containsKey(key); }
-    
-            @Override
             public Optional<V> get(Map<K, V> storage) { return Optional.ofNullable(storage.get(key)); }
     
             @Override

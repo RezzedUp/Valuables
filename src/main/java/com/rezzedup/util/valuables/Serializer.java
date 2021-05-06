@@ -12,5 +12,11 @@ import pl.tlinkowski.annotation.basic.NullOr;
 @FunctionalInterface
 public interface Serializer<D, S>
 {
+    @SuppressWarnings("unchecked")
+    static <D, S> Serializer<D, S> cast()
+    {
+        return deserialized -> (S) deserialized;
+    }
+    
     @NullOr S serialize(D deserialized);
 }

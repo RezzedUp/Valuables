@@ -14,19 +14,10 @@ import java.util.Optional;
 
 public interface AdaptedValue<S, O, V> extends Adaptable<ValueAdapter<S, O, V>>, Value<S, V>
 {
-    static <S, O, V> AdaptedValue<S, O, V> of(ValueQuery<S> query, ValueAdapter<S, O, V> adapter)
+    static <S, O, V> AdaptedValue<S, O, V> of(ValueAdapter<S, O, V> adapter)
     {
-        Objects.requireNonNull(query, "query");
         Objects.requireNonNull(adapter, "adapter");
-        
-        return new AdaptedValue<>()
-        {
-            @Override
-            public ValueAdapter<S, O, V> adapter() { return adapter; }
-    
-            @Override
-            public boolean isSet(S storage) { return query.isSet(storage); }
-        };
+        return () -> adapter;
     }
     
     @Override

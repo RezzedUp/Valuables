@@ -7,11 +7,8 @@
  */
 package com.rezzedup.util.valuables;
 
-import pl.tlinkowski.annotation.basic.NullOr;
-
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 
 /**
  * Gets a possible value from storage.
@@ -20,7 +17,7 @@ import java.util.function.Function;
  * @param <V>   value type
  */
 @FunctionalInterface
-public interface ValueGetter<S, V>
+public interface MaybeGetter<S, V>
 {
     /**
      * Converts a direct getter into a possible value getter.
@@ -31,11 +28,10 @@ public interface ValueGetter<S, V>
      *
      * @return  the direct getter wrapped by an optional
      */
-    @SuppressWarnings("ConstantConditions")
-    static <S, V> ValueGetter<S, V> maybe(Function<S, @NullOr V> getter)
+    static <S, V> MaybeGetter<S, V> maybe(Getter<S, V> getter)
     {
         Objects.requireNonNull(getter, "getter");
-        return storage -> Optional.ofNullable(getter.apply(storage));
+        return storage -> Optional.ofNullable(getter.get(storage));
     }
     
     /**

@@ -28,9 +28,6 @@ public interface DefaultAdaptedMapValue<K, O, V> extends AdaptedMapValue<K, O, V
     
             @Override
             public K key() { return key; }
-    
-            @Override
-            public boolean isSet(Map<K, O> storage) { return storage.containsKey(key); }
         };
     }
     

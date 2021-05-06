@@ -14,10 +14,9 @@ import java.util.Optional;
 
 public interface KeyValue<S, K, V> extends KeyHolder<K>, Value<S, V>
 {
-    static <S, K, V> KeyValue<S, K, V> of(K key, KeyValueQuery<S, K> query, KeyValueGetter<S, K, V> getter, KeyValueSetter<S, K, V> setter)
+    static <S, K, V> KeyValue<S, K, V> of(K key, MaybeKeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
     {
         Objects.requireNonNull(key, "key");
-        Objects.requireNonNull(query, "query");
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
        
@@ -25,9 +24,6 @@ public interface KeyValue<S, K, V> extends KeyHolder<K>, Value<S, V>
         {
             @Override
             public final K key() { return key; }
-            
-            @Override
-            public final boolean isSet(S storage) { return query.isSet(storage, key); }
             
             @Override
             public final Optional<V> get(S storage) { return getter.get(storage, key); }

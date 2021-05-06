@@ -22,9 +22,7 @@ public class CompositionTests
         Map<String, Number> numbersByName = new HashMap<>();
         
         DefaultKeyValue<Map<String, Number>, String, Number> ten =
-            DefaultKeyValue.of(10, KeyValue.of(
-                "ten", Map::containsKey, KeyValueGetter.maybe(Map::get), Map::put
-            ));
+            DefaultKeyValue.of(10, KeyValue.of("ten", MaybeKeyGetter.maybe(Map::get), Map::put));
     
         ten.setAsDefault(numbersByName);
         

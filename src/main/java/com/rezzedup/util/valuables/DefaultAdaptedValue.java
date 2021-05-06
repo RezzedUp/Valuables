@@ -23,9 +23,6 @@ public interface DefaultAdaptedValue<S, O, V> extends AdaptedValue<S, O, V>, Def
             
             @Override
             public ValueAdapter<S, O, V> adapter() { return value.adapter(); }
-            
-            @Override
-            public boolean isSet(S storage) { return value.isSet(storage); }
         };
     }
 }

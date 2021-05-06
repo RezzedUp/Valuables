@@ -31,9 +31,6 @@ public interface DefaultKeyValue<S, K, V> extends DefaultValue<S, V>, KeyValue<S
             public Optional<V> get(S storage) { return value.get(storage); }
     
             @Override
-            public boolean isSet(S storage) { return value.isSet(storage); }
-    
-            @Override
             public void set(S storage, @NullOr V updated) { value.set(storage, updated); }
         };
     }

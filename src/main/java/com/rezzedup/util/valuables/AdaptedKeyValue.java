@@ -14,10 +14,9 @@ import java.util.Optional;
 
 public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<KeyValueAdapter<S, O, K, V>>, KeyValue<S, K, V>
 {
-    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> of(K key, KeyValueQuery<S, K> query, KeyValueAdapter<S, O, K, V> adapter)
+    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> of(K key, KeyValueAdapter<S, O, K, V> adapter)
     {
         Objects.requireNonNull(key, "key");
-        Objects.requireNonNull(query, "query");
         Objects.requireNonNull(adapter, "adapter");
         
         return new AdaptedKeyValue<>()
@@ -27,9 +26,6 @@ public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<KeyValueAdapter<S
     
             @Override
             public K key() { return key; }
-    
-            @Override
-            public boolean isSet(S storage) { return query.isSet(storage, key); }
         };
     }
     

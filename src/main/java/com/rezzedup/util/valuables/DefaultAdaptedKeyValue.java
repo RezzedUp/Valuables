@@ -26,9 +26,6 @@ public interface DefaultAdaptedKeyValue<S, O, K, V> extends AdaptedKeyValue<S, O
             
             @Override
             public K key() { return value.key(); }
-            
-            @Override
-            public boolean isSet(S storage) { return value.isSet(storage); }
         };
     }
 }

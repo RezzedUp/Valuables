@@ -7,8 +7,9 @@
  */
 package com.rezzedup.util.valuables;
 
-@FunctionalInterface
-public interface KeyValueQuery<S, K>
+public interface DefaultSetter<S, V> extends Setter<S, V>
 {
-    boolean isSet(S storage, K key);
+    void setAsDefault(S storage);
+    
+    void setAsDefaultIfUnset(S storage);
 }

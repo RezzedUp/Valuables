@@ -29,9 +29,6 @@ public interface DefaultMapValue<K, V> extends DefaultKeyValue<Map<K, V>, K, V>,
             public V getDefaultValue() { return def; }
     
             @Override
-            public boolean isSet(Map<K, V> storage) { return value.isSet(storage); }
-    
-            @Override
             public Optional<V> get(Map<K, V> storage) { return value.get(storage); }
     
             @Override

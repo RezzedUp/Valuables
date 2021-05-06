@@ -16,7 +16,7 @@ import pl.tlinkowski.annotation.basic.NullOr;
  * @param <V>   value type
  */
 @FunctionalInterface
-public interface ValueSetter<S, V>
+public interface Setter<S, V>
 {
     /**
      * Sets the value within the provided storage to the

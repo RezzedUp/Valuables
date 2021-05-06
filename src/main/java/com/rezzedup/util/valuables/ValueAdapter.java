@@ -37,7 +37,7 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
      *
      * @throws NullPointerException     if any argument is {@code null}
      */
-    static <S, O, V> ValueAdapter<S, O, V> of(DirectGetter<S, O> getter, DirectSetter<S, O> setter, Adapter<O, V> adapter)
+    static <S, O, V> ValueAdapter<S, O, V> adapted(Getter<S, O> getter, Setter<S, O> setter, Adapter<O, V> adapter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
@@ -67,6 +67,33 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
         };
     }
     
+    static <S, O, V> ValueAdapter<S, O, V> direct(Getter<S, V> getter, Setter<S, V> setter)
+    {
+        Objects.requireNonNull(getter, "getter");
+        Objects.requireNonNull(setter, "setter");
+        
+        return new ValueAdapter<>()
+        {
+            @Override
+            public @NullOr V get(S storage)
+            {
+                return getter.get(storage);
+            }
+            
+            @Override
+            public void set(S storage, @NullOr V value)
+            {
+                setter.set(storage, value);
+            }
+            
+            @Override
+            public @NullOr O serialize(V deserialized) { return null; }
+            
+            @Override
+            public @NullOr V deserialize(O serialized) { return null; }
+        };
+    }
+    
     /**
      * Gets and converts the possibly-{@code null} value
      * directly from the provided storage.
@@ -87,52 +114,4 @@ public interface ValueAdapter<S, O, V> extends Adapter<O, V>
      *                  or {@code null} to remove
      */
     void set(S storage, @NullOr V value);
-    
-    //
-    //  Specialized interfaces for direct getters & setters
-    //  (and for proper nullness).
-    //
-    
-    /**
-     * A "direct getter" where the value is retrieved
-     * in its original type directly from storage.
-     *
-     * @param <S>   storage type
-     * @param <O>   output type
-     */
-    @FunctionalInterface
-    interface DirectGetter<S, O>
-    {
-        /**
-         * Gets the value in its original type directly from
-         * the provided storage.
-         *
-         * @param storage   the storage
-         *
-         * @return  the original value or {@code null}
-         */
-        @NullOr O get(S storage);
-    }
-    
-    /**
-     * A "direct setter" where the value is set in the
-     * required output type directly into storage.
-     *
-     * @param <S>   storage type
-     * @param <O>   output type
-     */
-    interface DirectSetter<S, O>
-    {
-        /**
-         * Sets the possibly-{@code null} value in its required
-         * output type directly into storage.
-         *
-         * @param storage   the storage
-         * @param output    the value or {@code null}
-         *
-         * @implNote    If the provided value is {@code null},
-         *              it is expected to be removed from storage.
-         */
-        void set(S storage, @NullOr O output);
-    }
 }

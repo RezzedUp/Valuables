@@ -12,7 +12,7 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-public interface DefaultValue<S, V> extends DefaultValueGetter<S, V>, DefaultValueSetter<S, V>,  Value<S, V>
+public interface DefaultValue<S, V> extends DefaultGetter<S, V>, DefaultSetter<S, V>,  Value<S, V>
 {
     static <S, V> DefaultValue<S, V> of(V def, Value<S, V> value)
     {
@@ -23,9 +23,6 @@ public interface DefaultValue<S, V> extends DefaultValueGetter<S, V>, DefaultVal
         {
             @Override
             public final V getDefaultValue() { return def; }
-            
-            @Override
-            public final boolean isSet(S storage) { return value.isSet(storage); }
             
             @Override
             public final Optional<V> get(S storage) { return value.get(storage); }
@@ -44,6 +41,6 @@ public interface DefaultValue<S, V> extends DefaultValueGetter<S, V>, DefaultVal
     @Override
     default void setAsDefaultIfUnset(S storage)
     {
-        if (!isSet(storage)) { set(storage, getDefaultValue()); }
+        if (get(storage).isEmpty()) { set(storage, getDefaultValue()); }
     }
 }

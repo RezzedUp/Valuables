@@ -7,10 +7,15 @@
  */
 package com.rezzedup.util.valuables;
 
-public interface DefaultValueGetter<S, V> extends Defaultable<V>, ValueGetter<S, V>
+import pl.tlinkowski.annotation.basic.NullOr;
+
+@FunctionalInterface
+public interface KeySetter<S, K, V>
 {
-    default V getOrDefault(S storage)
+    void set(S storage, K key, @NullOr V value);
+    
+    default void remove(S storage, K key)
     {
-        return get(storage).orElseGet(this::getDefaultValue);
+        set(storage, key, null);
     }
 }

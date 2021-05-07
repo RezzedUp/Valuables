@@ -11,7 +11,7 @@ import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.util.Objects;
 
-public interface DelegatedKeyAdapter<S, O, K, V> extends Adapter<O, V>
+public interface DelegatedKeyAdapter<S, O, K, V> extends Adapter<O, V>, KeyGetter<S, K, V>, KeySetter<S, K, V>
 {
     static <S, O, K, V> DelegatedKeyAdapter<S, O, K, V> delegates(KeyGetter<S, K, O> getter, KeySetter<S, K, O> setter, Adapter<O, V> adapter)
     {
@@ -64,8 +64,10 @@ public interface DelegatedKeyAdapter<S, O, K, V> extends Adapter<O, V>
         };
     }
     
-    @NullOr V get(S storage, K key);
+    @Override
+    public @NullOr V get(S storage, K key); // redundantly 'public' for proper @NullOr placement
     
+    @Override
     void set(S storage, K key, @NullOr V value);
     
 }

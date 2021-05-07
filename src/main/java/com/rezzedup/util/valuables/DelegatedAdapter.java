@@ -19,7 +19,7 @@ import java.util.Objects;
  * @param <O>   output type
  * @param <V>   value type
  */
-public interface DelegatedAdapter<S, O, V> extends Adapter<O, V>
+public interface DelegatedAdapter<S, O, V> extends Adapter<O, V>, Getter<S, V>, Setter<S, V>
 {
     /**
      * Creates a new value adapter composed of the provided
@@ -103,7 +103,8 @@ public interface DelegatedAdapter<S, O, V> extends Adapter<O, V>
      * @return  the value if retrieval and conversion
      *          was successful, otherwise {@code null}
      */
-    @NullOr V get(S storage);
+    @Override
+    public @NullOr V get(S storage); // redundantly 'public' for proper @NullOr placement
     
     /**
      * Converts and sets the value directly into the provided
@@ -113,5 +114,6 @@ public interface DelegatedAdapter<S, O, V> extends Adapter<O, V>
      * @param value     the value to set
      *                  or {@code null} to remove
      */
+    @Override
     void set(S storage, @NullOr V value);
 }

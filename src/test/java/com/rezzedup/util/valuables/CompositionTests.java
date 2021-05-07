@@ -25,17 +25,21 @@ public class CompositionTests
             DefaultKeyValue.defaults(10, KeyValue.where("ten", KeyGetter.maybe(Map::get), Map::put));
     
         ten.setAsDefault(numbersByName);
+        assertEquals(10, numbersByName.get("ten"));
         
-        DefaultMapValue<String, Number> twelve = DefaultMapValue.defaults("twelve", 12);
-        twelve.setAsDefault(numbersByName);
-        
-        DefaultAdaptedMapValue<String, Number, Double> fiveAndAHalf =
-            DefaultAdaptedMapValue.defaults("fiveAndAHalf", 5.5, Adapter.subtype(num -> (Double) num));
+        DefaultAdaptedKeyValue<Map<String, Number>, Number, String, Double> fiveAndAHalf =
+            DefaultAdaptedKeyValue.defaults(
+                5.5,
+                AdaptedKeyValue.where(
+                    "fiveAndAHalf",
+                    DelegatedKeyAdapter.delegates(Map::get, Map::put, Adapter.subtype(num -> (Double) num))
+                )
+            );
         
         fiveAndAHalf.setAsDefault(numbersByName);
-        
-        assertEquals(10, numbersByName.get("ten"));
-        assertEquals(12, numbersByName.get("twelve"));
         assertEquals(5.5, numbersByName.get("fiveAndAHalf"));
+        
+        fiveAndAHalf.remove(numbersByName);
+        assertEquals(5.5, fiveAndAHalf.getOrDefault(numbersByName));
     }
 }

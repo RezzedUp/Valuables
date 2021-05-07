@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface Value<S, V> extends MaybeGetter<S, V>, Setter<S, V>
 {
-    static <S, V> Value<S, V> wraps(MaybeGetter<S, V> getter, Setter<S, V> setter)
+    static <S, V> Value<S, V> from(MaybeGetter<S, V> getter, Setter<S, V> setter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
@@ -25,7 +25,7 @@ public interface Value<S, V> extends MaybeGetter<S, V>, Setter<S, V>
             public final Optional<V> get(S storage) { return getter.get(storage); }
             
             @Override
-            public final void set(S storage, @NullOr V value) { setter.set(storage, value); }
+            public final void set(S storage, @NullOr V updated) { setter.set(storage, updated); }
         };
     }
 }

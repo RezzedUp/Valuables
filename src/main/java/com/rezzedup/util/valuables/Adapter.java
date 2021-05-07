@@ -11,9 +11,9 @@ import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.util.Objects;
 
-public interface Adapter<O, V> extends Deserializer<O, V>, Serializer<V, O>
+public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
 {
-    static <O, V> Adapter<O, V> adapts(Deserializer<O, V> deserializer, Serializer<V, O> serializer)
+    static <S, D> Adapter<S, D> adapts(Deserializer<S, D> deserializer, Serializer<D, S> serializer)
     {
         Objects.requireNonNull(deserializer, "deserializer");
         Objects.requireNonNull(serializer, "serializer");
@@ -21,33 +21,33 @@ public interface Adapter<O, V> extends Deserializer<O, V>, Serializer<V, O>
         return new Adapter<>()
         {
             @Override
-            public @NullOr V deserialize(O serialized) { return deserializer.deserialize(serialized); }
+            public @NullOr D deserialize(S serialized) { return deserializer.deserialize(serialized); }
     
             @Override
-            public @NullOr O serialize(V deserialized) { return serializer.serialize(deserialized); }
+            public @NullOr S serialize(D deserialized) { return serializer.serialize(deserialized); }
         };
     }
     
     @SuppressWarnings("unchecked")
-    static <V> Adapter<V, V> identity()
+    static <S> Adapter<S, S> identity()
     {
-        return (Adapter<V, V>) Adapters.IDENTITY;
+        return (Adapter<S, S>) Adapters.IDENTITY;
     }
     
     @SuppressWarnings("unchecked")
-    static <O, V> Adapter<O, V> nulls()
+    static <S, D> Adapter<S, D> nulls()
     {
-        return (Adapter<O, V>) Adapters.NULL;
+        return (Adapter<S, D>) Adapters.NULL;
     }
     
-    static <O, V extends O> Adapter<O, V> subtype(Deserializer<O, V> deserializer)
+    static <S, D extends S> Adapter<S, D> subtype(Deserializer<S, D> deserializer)
     {
         return adapts(
             serialized -> {
                 try { return deserializer.deserialize(serialized); }
                 catch (ClassCastException e) { return null; }
             },
-            deserialized -> (O) deserialized
+            deserialized -> (S) deserialized
         );
     }
 }

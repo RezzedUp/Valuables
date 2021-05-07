@@ -23,10 +23,10 @@ public interface Setter<S, V>
      * input value or removes it if it's {@code null}.
      *
      * @param storage   the storage
-     * @param value     the value to set
-     *                  or {@code null} to remove
+     * @param updated   the value to set or
+     *                  {@code null} to remove
      */
-    void set(S storage, @NullOr V value);
+    void set(S storage, @NullOr V updated);
     
     /**
      * Removes the value from the provided storage.

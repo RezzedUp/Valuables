@@ -22,7 +22,7 @@ public class CompositionTests
         Map<String, Number> numbersByName = new HashMap<>();
         
         DefaultKeyValue<Map<String, Number>, String, Number> ten =
-            DefaultKeyValue.defaults(10, KeyValue.where("ten", KeyGetter.maybe(Map::get), Map::put));
+            DefaultKeyValue.defaults(10, KeyValue.from("ten", KeyGetter.maybe(Map::get), Map::put));
     
         ten.setAsDefault(numbersByName);
         assertEquals(10, numbersByName.get("ten"));
@@ -30,9 +30,9 @@ public class CompositionTests
         DefaultAdaptedKeyValue<Map<String, Number>, Number, String, Double> fiveAndAHalf =
             DefaultAdaptedKeyValue.defaults(
                 5.5,
-                AdaptedKeyValue.where(
-                    "fiveAndAHalf",
-                    DelegatedKeyAdapter.delegates(Map::get, Map::put, Adapter.subtype(num -> (Double) num))
+                AdaptedKeyValue.adapts(
+                    KeyValue.from("fiveAndAHalf", KeyGetter.maybe(Map::get), Map::put),
+                    Adapter.subtype(num -> (Double) num)
                 )
             );
         

@@ -12,7 +12,7 @@ import pl.tlinkowski.annotation.basic.NullOr;
 @FunctionalInterface
 public interface KeySetter<S, K, V>
 {
-    void set(S storage, K key, @NullOr V value);
+    void set(S storage, K key, @NullOr V updated);
     
     default void remove(S storage, K key)
     {

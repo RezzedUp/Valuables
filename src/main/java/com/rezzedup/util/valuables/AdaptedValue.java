@@ -12,23 +12,30 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-public interface AdaptedValue<S, O, V> extends Adaptable<DelegatedAdapter<S, O, V>>, Value<S, V>
+public interface AdaptedValue<S, O, V> extends Adaptable<O, V>, Value<S, V>
 {
-    static <S, O, V> AdaptedValue<S, O, V> wraps(DelegatedAdapter<S, O, V> adapter)
+    static <S, O, V> AdaptedValue<S, O, V> adapts(Value<S, O> value, Adapter<O, V> adapter)
     {
+        Objects.requireNonNull(value, "value");
         Objects.requireNonNull(adapter, "adapter");
-        return () -> adapter;
-    }
+        
+        return new AdaptedValue<>()
+        {
+            @Override
+            public Adapter<O, V> adapter() { return adapter; }
     
-    @Override
-    default Optional<V> get(S storage)
-    {
-        return Optional.ofNullable(adapter().get(storage));
-    }
+            @Override
+            public Optional<V> get(S storage)
+            {
+                return value.get(storage).map(adapter::deserialize);
+            }
     
-    @Override
-    default void set(S storage, @NullOr V value)
-    {
-        adapter().set(storage, value);
+            @Override
+            public void set(S storage, @NullOr V updated)
+            {
+                @NullOr O output = (updated == null) ? null : adapter.serialize(updated);
+                value.set(storage, output);
+            }
+        };
     }
 }

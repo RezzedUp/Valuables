@@ -12,32 +12,33 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<DelegatedKeyAdapter<S, O, K, V>>, KeyValue<S, K, V>
+public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<O, V>, KeyValue<S, K, V>
 {
-    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> where(K key, DelegatedKeyAdapter<S, O, K, V> adapter)
+    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> adapts(KeyValue<S, K, O> value, Adapter<O, V> adapter)
     {
-        Objects.requireNonNull(key, "key");
+        Objects.requireNonNull(value, "value");
         Objects.requireNonNull(adapter, "adapter");
         
         return new AdaptedKeyValue<>()
         {
             @Override
-            public DelegatedKeyAdapter<S, O, K, V> adapter() { return adapter; }
+            public Adapter<O, V> adapter() { return adapter; }
+            
+            @Override
+            public K key() { return value.key(); }
+            
+            @Override
+            public Optional<V> get(S storage)
+            {
+                return value.get(storage).map(adapter::deserialize);
+            }
     
             @Override
-            public K key() { return key; }
+            public void set(S storage, @NullOr V updated)
+            {
+                @NullOr O output = (updated == null) ? null : adapter.serialize(updated);
+                value.set(storage, output);
+            }
         };
-    }
-    
-    @Override
-    default Optional<V> get(S storage)
-    {
-        return Optional.ofNullable(adapter().get(storage, key()));
-    }
-    
-    @Override
-    default void set(S storage, @NullOr V value)
-    {
-        adapter().set(storage, key(), value);
     }
 }

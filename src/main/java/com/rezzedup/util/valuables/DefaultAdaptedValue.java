@@ -7,7 +7,10 @@
  */
 package com.rezzedup.util.valuables;
 
+import pl.tlinkowski.annotation.basic.NullOr;
+
 import java.util.Objects;
+import java.util.Optional;
 
 public interface DefaultAdaptedValue<S, O, V> extends AdaptedValue<S, O, V>, DefaultValue<S, V>
 {
@@ -19,10 +22,16 @@ public interface DefaultAdaptedValue<S, O, V> extends AdaptedValue<S, O, V>, Def
         return new DefaultAdaptedValue<>()
         {
             @Override
-            public V getDefaultValue() { return def; }
-            
+            public Adapter<O, V> adapter() { return value.adapter(); }
+    
             @Override
-            public DelegatedAdapter<S, O, V> adapter() { return value.adapter(); }
+            public V getDefaultValue() { return def; }
+    
+            @Override
+            public Optional<V> get(S storage) { return value.get(storage); }
+    
+            @Override
+            public void set(S storage, @NullOr V updated) { value.set(storage, updated); }
         };
     }
 }

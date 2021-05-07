@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public interface DelegatedMapAdapter<K, O, V> extends DelegatedKeyAdapter<Map<K, O>, O, K, V>
 {
-    static <K, O, V> DelegatedMapAdapter<K, O, V> of(Adapter<O, V> adapter)
+    static <K, O, V> DelegatedMapAdapter<K, O, V> delegates(Adapter<O, V> adapter)
     {
         Objects.requireNonNull(adapter, "adapter");
         

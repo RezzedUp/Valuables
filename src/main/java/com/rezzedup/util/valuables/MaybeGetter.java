@@ -28,7 +28,7 @@ public interface MaybeGetter<S, V>
      *
      * @return  the direct getter wrapped by an optional
      */
-    static <S, V> MaybeGetter<S, V> maybe(Getter<S, V> getter)
+    static <S, V> MaybeGetter<S, V> gets(Getter<S, V> getter)
     {
         Objects.requireNonNull(getter, "getter");
         return storage -> Optional.ofNullable(getter.get(storage));

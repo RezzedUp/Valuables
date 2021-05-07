@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public interface Adapter<O, V> extends Deserializer<O, V>, Serializer<V, O>
 {
-    static <O, V> Adapter<O, V> of(Deserializer<O, V> deserializer, Serializer<V, O> serializer)
+    static <O, V> Adapter<O, V> adapts(Deserializer<O, V> deserializer, Serializer<V, O> serializer)
     {
         Objects.requireNonNull(deserializer, "deserializer");
         Objects.requireNonNull(serializer, "serializer");
@@ -42,7 +42,7 @@ public interface Adapter<O, V> extends Deserializer<O, V>, Serializer<V, O>
     
     static <O, V extends O> Adapter<O, V> subtype(Deserializer<O, V> deserializer)
     {
-        return of(
+        return adapts(
             serialized -> {
                 try { return deserializer.deserialize(serialized); }
                 catch (ClassCastException e) { return null; }

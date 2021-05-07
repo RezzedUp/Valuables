@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<DelegatedKeyAdapter<S, O, K, V>>, KeyValue<S, K, V>
 {
-    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> of(K key, DelegatedKeyAdapter<S, O, K, V> adapter)
+    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> where(K key, DelegatedKeyAdapter<S, O, K, V> adapter)
     {
         Objects.requireNonNull(key, "key");
         Objects.requireNonNull(adapter, "adapter");

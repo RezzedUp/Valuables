@@ -37,7 +37,7 @@ public interface DelegatedAdapter<S, O, V> extends Adapter<O, V>
      *
      * @throws NullPointerException     if any argument is {@code null}
      */
-    static <S, O, V> DelegatedAdapter<S, O, V> adapted(Getter<S, O> getter, Setter<S, O> setter, Adapter<O, V> adapter)
+    static <S, O, V> DelegatedAdapter<S, O, V> delegates(Getter<S, O> getter, Setter<S, O> setter, Adapter<O, V> adapter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
@@ -67,7 +67,7 @@ public interface DelegatedAdapter<S, O, V> extends Adapter<O, V>
         };
     }
     
-    static <S, O, V> DelegatedAdapter<S, O, V> direct(Getter<S, V> getter, Setter<S, V> setter)
+    static <S, O, V> DelegatedAdapter<S, O, V> directly(Getter<S, V> getter, Setter<S, V> setter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");

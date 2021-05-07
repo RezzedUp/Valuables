@@ -15,9 +15,9 @@ import java.util.Optional;
 
 public interface DefaultMapValue<K, V> extends DefaultKeyValue<Map<K, V>, K, V>, MapValue<K, V>
 {
-    static <K, V> DefaultMapValue<K, V> of(K key, V def)
+    static <K, V> DefaultMapValue<K, V> defaults(K key, V def)
     {
-        MapValue<K, V> value = MapValue.of(key);
+        MapValue<K, V> value = MapValue.where(key);
         Objects.requireNonNull(def, "def");
         
         return new DefaultMapValue<>()

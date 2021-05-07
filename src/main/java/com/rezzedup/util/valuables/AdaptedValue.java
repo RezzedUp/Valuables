@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface AdaptedValue<S, O, V> extends Adaptable<DelegatedAdapter<S, O, V>>, Value<S, V>
 {
-    static <S, O, V> AdaptedValue<S, O, V> of(DelegatedAdapter<S, O, V> adapter)
+    static <S, O, V> AdaptedValue<S, O, V> wraps(DelegatedAdapter<S, O, V> adapter)
     {
         Objects.requireNonNull(adapter, "adapter");
         return () -> adapter;

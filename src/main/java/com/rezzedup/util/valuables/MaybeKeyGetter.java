@@ -13,7 +13,7 @@ import java.util.Optional;
 @FunctionalInterface
 public interface MaybeKeyGetter<S, K, V>
 {
-    static <S, K, V> MaybeKeyGetter<S, K, V> maybe(KeyGetter<S, K, V> getter)
+    static <S, K, V> MaybeKeyGetter<S, K, V> gets(KeyGetter<S, K, V> getter)
     {
         Objects.requireNonNull(getter, "getter");
         return (storage, key) -> Optional.ofNullable(getter.get(storage, key));

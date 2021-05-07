@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public interface MapValue<K, V> extends KeyValue<Map<K, V>, K, V>
 {
-    static <K, V> MapValue<K, V> of(K key)
+    static <K, V> MapValue<K, V> where(K key)
     {
         Objects.requireNonNull(key, "key");
         

@@ -12,6 +12,11 @@ import pl.tlinkowski.annotation.basic.NullOr;
 public
 interface Getter<S, V>
 {
+    static <S, V> MaybeGetter<S, V> maybe(Getter<S, V> getter)
+    {
+        return MaybeGetter.gets(getter);
+    }
+    
     /**
      * Gets the value in its original type directly from
      * the provided storage.
@@ -20,5 +25,5 @@ interface Getter<S, V>
      *
      * @return  the original value or {@code null}
      */
-    @NullOr V get(S storage);
+    public @NullOr V get(S storage); // redundantly 'public' for proper @NullOr placement
 }

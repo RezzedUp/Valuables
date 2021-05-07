@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public interface DelegatedKeyAdapter<S, O, K, V> extends Adapter<O, V>
 {
-    static <S, O, K, V> DelegatedKeyAdapter<S, O, K, V> adapted(KeyGetter<S, K, O> getter, KeySetter<S, K, O> setter, Adapter<O, V> adapter)
+    static <S, O, K, V> DelegatedKeyAdapter<S, O, K, V> delegates(KeyGetter<S, K, O> getter, KeySetter<S, K, O> setter, Adapter<O, V> adapter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
@@ -43,7 +43,7 @@ public interface DelegatedKeyAdapter<S, O, K, V> extends Adapter<O, V>
         };
     }
     
-    static <S, O, K, V> DelegatedKeyAdapter<S, O, K, V> direct(KeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
+    static <S, O, K, V> DelegatedKeyAdapter<S, O, K, V> directly(KeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");

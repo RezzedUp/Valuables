@@ -14,12 +14,12 @@ import java.util.Optional;
 
 public interface Value<S, V> extends MaybeGetter<S, V>, Setter<S, V>
 {
-    static <S, V> Value<S, V> of(MaybeGetter<S, V> getter, Setter<S, V> setter)
+    static <S, V> Value<S, V> wraps(MaybeGetter<S, V> getter, Setter<S, V> setter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");
         
-        return new Value<S, V>()
+        return new Value<>()
         {
             @Override
             public final Optional<V> get(S storage) { return getter.get(storage); }

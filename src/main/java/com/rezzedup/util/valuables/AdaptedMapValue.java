@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public interface AdaptedMapValue<K, O, V> extends AdaptedKeyValue<Map<K, O>, O, K, V>
 {
-    static <K, O, V> AdaptedMapValue<K, O, V> of(K key, DelegatedKeyAdapter<Map<K, O>, O, K, V> adapter)
+    static <K, O, V> AdaptedMapValue<K, O, V> where(K key, DelegatedKeyAdapter<Map<K, O>, O, K, V> adapter)
     {
         Objects.requireNonNull(key, "key");
         Objects.requireNonNull(adapter, "adapter");
@@ -27,8 +27,8 @@ public interface AdaptedMapValue<K, O, V> extends AdaptedKeyValue<Map<K, O>, O, 
         };
     }
     
-    static <K, O, V> AdaptedMapValue<K, O, V> of(K key, Adapter<O, V> adapter)
+    static <K, O, V> AdaptedMapValue<K, O, V> where(K key, Adapter<O, V> adapter)
     {
-        return of(key, DelegatedMapAdapter.of(adapter));
+        return where(key, DelegatedMapAdapter.delegates(adapter));
     }
 }

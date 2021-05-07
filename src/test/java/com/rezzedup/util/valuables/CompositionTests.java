@@ -22,15 +22,15 @@ public class CompositionTests
         Map<String, Number> numbersByName = new HashMap<>();
         
         DefaultKeyValue<Map<String, Number>, String, Number> ten =
-            DefaultKeyValue.of(10, KeyValue.of("ten", MaybeKeyGetter.maybe(Map::get), Map::put));
+            DefaultKeyValue.defaults(10, KeyValue.where("ten", KeyGetter.maybe(Map::get), Map::put));
     
         ten.setAsDefault(numbersByName);
         
-        DefaultMapValue<String, Number> twelve = DefaultMapValue.of("twelve", 12);
+        DefaultMapValue<String, Number> twelve = DefaultMapValue.defaults("twelve", 12);
         twelve.setAsDefault(numbersByName);
         
         DefaultAdaptedMapValue<String, Number, Double> fiveAndAHalf =
-            DefaultAdaptedMapValue.of("fiveAndAHalf", 5.5, Adapter.subtype(num -> (Double) num));
+            DefaultAdaptedMapValue.defaults("fiveAndAHalf", 5.5, Adapter.subtype(num -> (Double) num));
         
         fiveAndAHalf.setAsDefault(numbersByName);
         

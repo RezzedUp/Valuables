@@ -34,12 +34,6 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
         return (Adapter<S, S>) Adapters.IDENTITY;
     }
     
-    @SuppressWarnings("unchecked")
-    static <S, D> Adapter<S, D> nulls()
-    {
-        return (Adapter<S, D>) Adapters.NULL;
-    }
-    
     static <S, D extends S> Adapter<S, D> subtype(Deserializer<S, D> deserializer)
     {
         return adapts(
@@ -47,7 +41,7 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
                 try { return deserializer.deserialize(serialized); }
                 catch (ClassCastException e) { return null; }
             },
-            deserialized -> (S) deserialized
+            deserialized -> deserialized
         );
     }
 }

@@ -14,10 +14,10 @@ import java.util.Optional;
 
 public interface AdaptedValue<S, O, V> extends Adaptable<O, V>, Value<S, V>
 {
-    static <S, O, V> AdaptedValue<S, O, V> adapts(Value<S, O> value, Adapter<O, V> adapter)
+    static <S, O, V> AdaptedValue<S, O, V> adapts(Adapter<O, V> adapter, Value<S, O> value)
     {
-        Objects.requireNonNull(value, "value");
         Objects.requireNonNull(adapter, "adapter");
+        Objects.requireNonNull(value, "value");
         
         return new AdaptedValue<>()
         {

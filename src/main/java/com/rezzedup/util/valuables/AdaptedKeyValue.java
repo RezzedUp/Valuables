@@ -12,12 +12,12 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-public interface AdaptedKeyValue<S, O, K, V> extends Adaptable<O, V>, KeyValue<S, K, V>
+public interface AdaptedKeyValue<S, K, O, V> extends Adaptable<O, V>, KeyValue<S, K, V>
 {
-    static <S, O, K, V> AdaptedKeyValue<S, O, K, V> adapts(KeyValue<S, K, O> value, Adapter<O, V> adapter)
+    static <S, K, O, V> AdaptedKeyValue<S, K, O, V> adapts(Adapter<O, V> adapter, KeyValue<S, K, O> value)
     {
-        Objects.requireNonNull(value, "value");
         Objects.requireNonNull(adapter, "adapter");
+        Objects.requireNonNull(value, "value");
         
         return new AdaptedKeyValue<>()
         {

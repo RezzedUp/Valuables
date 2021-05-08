@@ -12,9 +12,9 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-public interface DefaultAdaptedKeyValue<S, O, K, V> extends AdaptedKeyValue<S, O, K, V>, DefaultKeyValue<S, K, V>
+public interface DefaultAdaptedKeyValue<S, K, O, V> extends AdaptedKeyValue<S, K, O, V>, DefaultKeyValue<S, K, V>
 {
-    static <S, O, K, V> DefaultAdaptedKeyValue<S, O, K, V> defaults(V def, AdaptedKeyValue<S, O, K, V> value)
+    static <S, K, O, V> DefaultAdaptedKeyValue<S, K, O, V> defaults(V def, AdaptedKeyValue<S, K, O, V> value)
     {
         Objects.requireNonNull(def, "def");
         Objects.requireNonNull(value, "value");

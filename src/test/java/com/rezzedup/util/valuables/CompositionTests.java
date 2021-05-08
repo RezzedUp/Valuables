@@ -27,12 +27,12 @@ public class CompositionTests
         ten.setAsDefault(numbersByName);
         assertEquals(10, numbersByName.get("ten"));
         
-        DefaultAdaptedKeyValue<Map<String, Number>, Number, String, Double> fiveAndAHalf =
+        DefaultAdaptedKeyValue<Map<String, Number>, String, Number, Double> fiveAndAHalf =
             DefaultAdaptedKeyValue.defaults(
                 5.5,
                 AdaptedKeyValue.adapts(
-                    KeyValue.from("fiveAndAHalf", KeyGetter.maybe(Map::get), Map::put),
-                    Adapter.subtype(num -> (Double) num)
+                    Adapter.subtype(num -> (Double) num),
+                    KeyValue.from("fiveAndAHalf", KeyGetter.maybe(Map::get), Map::put)
                 )
             );
         

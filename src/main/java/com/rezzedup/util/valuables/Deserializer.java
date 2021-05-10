@@ -7,10 +7,10 @@
  */
 package com.rezzedup.util.valuables;
 
-import pl.tlinkowski.annotation.basic.NullOr;
+import java.util.Optional;
 
 @FunctionalInterface
 public interface Deserializer<S, D>
 {
-    public @NullOr D deserialize(S serialized); // redundantly 'public' for proper @NullOr placement
+    Optional<D> deserialize(S serialized);
 }

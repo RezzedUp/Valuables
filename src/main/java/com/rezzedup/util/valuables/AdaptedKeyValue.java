@@ -30,13 +30,13 @@ public interface AdaptedKeyValue<S, K, O, V> extends Adaptable<O, V>, KeyValue<S
             @Override
             public Optional<V> get(S storage)
             {
-                return value.get(storage).map(adapter::deserialize);
+                return value.get(storage).flatMap(adapter::deserialize);
             }
     
             @Override
             public void set(S storage, @NullOr V updated)
             {
-                @NullOr O output = (updated == null) ? null : adapter.serialize(updated);
+                @NullOr O output = (updated == null) ? null : adapter.serialize(updated).orElse(null);
                 value.set(storage, output);
             }
         };

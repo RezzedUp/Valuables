@@ -10,11 +10,11 @@ package com.rezzedup.util.valuables.adapters;
 import com.rezzedup.util.valuables.Adapter;
 import com.rezzedup.util.valuables.Deserializer;
 import com.rezzedup.util.valuables.Serializer;
-import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface StringAdapter<V> extends Adapter<String, V>
@@ -27,10 +27,10 @@ public interface StringAdapter<V> extends Adapter<String, V>
         return new StringAdapter<>()
         {
             @Override
-            public @NullOr V deserialize(String serialized) { return deserializer.deserialize(serialized); }
+            public Optional<V> deserialize(String serialized) { return deserializer.deserialize(serialized); }
     
             @Override
-            public @NullOr String serialize(V deserialized) { return serializer.serialize(deserialized); }
+            public Optional<String> serialize(V deserialized) { return serializer.serialize(deserialized); }
         };
     }
     

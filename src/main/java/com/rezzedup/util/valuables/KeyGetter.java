@@ -9,13 +9,19 @@ package com.rezzedup.util.valuables;
 
 import pl.tlinkowski.annotation.basic.NullOr;
 
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiFunction;
+
 @FunctionalInterface
-public interface KeyGetter<S, K, O>
+public interface KeyGetter<S, K, V>
 {
-    static <S, K, V> MaybeKeyGetter<S, K, V> maybe(KeyGetter<S, K, V> getter)
+    @SuppressWarnings("ConstantConditions")
+    static <S, K, V> KeyGetter<S, K, V> maybe(BiFunction<S, K, @NullOr V> getter)
     {
-        return MaybeKeyGetter.gets(getter);
+        Objects.requireNonNull(getter, "getter");
+        return (storage, key) -> Optional.ofNullable(getter.apply(storage, key));
     }
     
-    @NullOr O get(S storage, K key);
+    Optional<V> get(S storage, K key);
 }

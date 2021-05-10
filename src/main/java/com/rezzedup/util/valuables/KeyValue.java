@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface KeyValue<S, K, V> extends KeyHolder<K>, Value<S, V>
 {
-    static <S, K, V> KeyValue<S, K, V> from(K key, MaybeKeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
+    static <S, K, V> KeyValue<S, K, V> from(K key, KeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
     {
         Objects.requireNonNull(key, "key");
         Objects.requireNonNull(getter, "getter");

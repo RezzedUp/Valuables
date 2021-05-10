@@ -25,7 +25,9 @@ public class CompositionTests
             DefaultKeyValue.defaults(10, KeyValue.from("ten", KeyGetter.maybe(Map::get), Map::put));
     
         ten.setAsDefault(numbersByName);
+        
         assertEquals(10, numbersByName.get("ten"));
+        assertEquals(10, ten.get(numbersByName).orElseThrow());
         
         DefaultAdaptedKeyValue<Map<String, Number>, String, Number, Double> fiveAndAHalf =
             DefaultAdaptedKeyValue.defaults(
@@ -37,7 +39,7 @@ public class CompositionTests
             );
         
         fiveAndAHalf.setAsDefault(numbersByName);
-        assertEquals(5.5, numbersByName.get("fiveAndAHalf"));
+        assertEquals(5.5, fiveAndAHalf.get(numbersByName).orElseThrow());
         
         fiveAndAHalf.remove(numbersByName);
         assertEquals(5.5, fiveAndAHalf.getOrDefault(numbersByName));

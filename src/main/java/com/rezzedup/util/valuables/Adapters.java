@@ -7,6 +7,8 @@
  */
 package com.rezzedup.util.valuables;
 
+import java.util.Optional;
+
 final class Adapters
 {
     private Adapters() { throw new UnsupportedOperationException(); }
@@ -14,9 +16,9 @@ final class Adapters
     static final Adapter<?, ?> IDENTITY = new Adapter<>()
     {
         @Override
-        public Object deserialize(Object serialized) { return serialized; }
+        public Optional<Object> deserialize(Object serialized) { return Optional.of(serialized); }
     
         @Override
-        public Object serialize(Object deserialized) { return deserialized; }
+        public Optional<Object> serialize(Object deserialized) { return Optional.of(deserialized); }
     };
 }

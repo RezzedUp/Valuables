@@ -7,9 +7,9 @@
  */
 package com.rezzedup.util.valuables;
 
-import pl.tlinkowski.annotation.basic.NullOr;
-
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
 
 public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
 {
@@ -21,10 +21,10 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
         return new Adapter<>()
         {
             @Override
-            public @NullOr D deserialize(S serialized) { return deserializer.deserialize(serialized); }
+            public Optional<D> deserialize(S serialized) { return deserializer.deserialize(serialized); }
     
             @Override
-            public @NullOr S serialize(D deserialized) { return serializer.serialize(deserialized); }
+            public Optional<S> serialize(D deserialized) { return serializer.serialize(deserialized); }
         };
     }
     
@@ -34,14 +34,14 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
         return (Adapter<S, S>) Adapters.IDENTITY;
     }
     
-    static <S, D extends S> Adapter<S, D> subtype(Deserializer<S, D> deserializer)
+    static <S, D extends S> Adapter<S, D> subtype(Function<S, D> deserializer)
     {
         return adapts(
             serialized -> {
-                try { return deserializer.deserialize(serialized); }
-                catch (ClassCastException e) { return null; }
+                try { return Optional.of(deserializer.apply(serialized)); }
+                catch (ClassCastException e) { return Optional.empty(); }
             },
-            deserialized -> deserialized
+            Optional::of
         );
     }
 }

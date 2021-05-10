@@ -7,7 +7,7 @@
  */
 package com.rezzedup.util.valuables;
 
-public interface DefaultGetter<S, V> extends Defaultable<V>, MaybeGetter<S, V>
+public interface DefaultGetter<S, V> extends Defaultable<V>, Getter<S, V>
 {
     default V getOrDefault(S storage)
     {

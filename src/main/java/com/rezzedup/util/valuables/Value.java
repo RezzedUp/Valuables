@@ -12,9 +12,9 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
-public interface Value<S, V> extends MaybeGetter<S, V>, Setter<S, V>
+public interface Value<S, V> extends Getter<S, V>, Setter<S, V>
 {
-    static <S, V> Value<S, V> from(MaybeGetter<S, V> getter, Setter<S, V> setter)
+    static <S, V> Value<S, V> from(Getter<S, V> getter, Setter<S, V> setter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");

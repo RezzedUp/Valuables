@@ -9,28 +9,42 @@ package com.rezzedup.util.valuables;
 
 import pl.tlinkowski.annotation.basic.NullOr;
 
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+
 /**
- * Gets a possibly-{@code null} value directly from storage.
+ * Gets a possible value from storage.
  *
- * @param <S> storage type
- * @param <V> value type
+ * @param <S>   storage type
+ * @param <V>   value type
  */
 @FunctionalInterface
-public
-interface Getter<S, V>
+public interface Getter<S, V>
 {
-    static <S, V> MaybeGetter<S, V> maybe(Getter<S, V> getter)
+    /**
+     * Converts a direct getter into a possible value getter.
+     *
+     * @param getter    direct getter
+     * @param <S>       storage type
+     * @param <V>       value type
+     *
+     * @return  the direct getter wrapped by an optional
+     */
+    @SuppressWarnings("ConstantConditions")
+    static <S, V> Getter<S, V> maybe(Function<S, @NullOr V> getter)
     {
-        return MaybeGetter.gets(getter);
+        Objects.requireNonNull(getter, "getter");
+        return storage -> Optional.ofNullable(getter.apply(storage));
     }
     
     /**
-     * Gets the value in its original type directly from
-     * the provided storage.
+     * Gets the possible value from storage.
      *
-     * @param storage   the storage
+     * @param storage   storage where the value may exist
      *
-     * @return  the original value or {@code null}
+     * @return  the value if it was successfully
+     *          retrieved, otherwise empty
      */
-    public @NullOr V get(S storage); // redundantly 'public' for proper @NullOr placement
+    Optional<V> get(S storage);
 }

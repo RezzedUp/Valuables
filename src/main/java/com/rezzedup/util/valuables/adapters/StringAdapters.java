@@ -11,7 +11,9 @@ import com.rezzedup.util.valuables.Deserializer;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
 final class StringAdapters
 {
@@ -20,14 +22,18 @@ final class StringAdapters
     static final StringAdapter<Boolean> BOOLEAN =
         simple(serialized ->
             ("true".equalsIgnoreCase(serialized))
-                ? Boolean.TRUE
+                ? Optional.of(Boolean.TRUE)
                 : ("false".equalsIgnoreCase(serialized))
-                    ? Boolean.FALSE
-                    : null
+                    ? Optional.of(Boolean.FALSE)
+                    : Optional.empty()
         );
     
     static final StringAdapter<Character> CHARACTER =
-        simple(serialized -> (serialized.length() == 1) ? serialized.charAt(0) : null);
+        simple(serialized ->
+            (serialized.length() == 1)
+                ? Optional.of(serialized.charAt(0))
+                : Optional.empty()
+        );
     
     static final StringAdapter<Short> SHORT = parse(Short::parseShort);
     
@@ -49,14 +55,14 @@ final class StringAdapters
     
     private static <V> StringAdapter<V> simple(Deserializer<String, V> deserializer)
     {
-        return StringAdapter.adapts(deserializer, String::valueOf);
+        return StringAdapter.adapts(deserializer, deserialized -> Optional.of(String.valueOf(deserialized)));
     }
     
-    private static <V> StringAdapter<V> parse(Deserializer<String, V> deserializer)
+    private static <V> StringAdapter<V> parse(Function<String, V> parser)
     {
         return simple(serialized -> {
-            try { return deserializer.deserialize(serialized); }
-            catch (RuntimeException ignored) { return null; }
+            try { return Optional.of(parser.apply(serialized)); }
+            catch (RuntimeException ignored) { return Optional.empty(); }
         });
     }
 }

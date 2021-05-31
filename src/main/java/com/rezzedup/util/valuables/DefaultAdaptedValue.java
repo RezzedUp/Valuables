@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface DefaultAdaptedValue<S, O, V> extends AdaptedValue<S, O, V>, DefaultValue<S, V>
 {
-    static <S, O, V> DefaultAdaptedValue<S, O, V> defaults(V def, AdaptedValue<S, O, V> value)
+    static <S, O, V> DefaultAdaptedValue<S, O, V> of(V def, AdaptedValue<S, O, V> value)
     {
         Objects.requireNonNull(def, "def");
         Objects.requireNonNull(value, "value");

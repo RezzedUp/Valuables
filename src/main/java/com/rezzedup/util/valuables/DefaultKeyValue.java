@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface DefaultKeyValue<S, K, V> extends DefaultValue<S, V>, KeyValue<S, K, V>
 {
-    static <S, K, V> DefaultKeyValue<S, K, V> defaults(V def, KeyValue<S, K, V> value)
+    static <S, K, V> DefaultKeyValue<S, K, V> of(V def, KeyValue<S, K, V> value)
     {
         Objects.requireNonNull(def, "def");
         Objects.requireNonNull(value, "value");

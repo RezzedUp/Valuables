@@ -55,7 +55,7 @@ final class StringAdapters
     
     private static <V> StringAdapter<V> simple(Deserializer<String, V> deserializer)
     {
-        return StringAdapter.adapts(deserializer, deserialized -> Optional.of(String.valueOf(deserialized)));
+        return StringAdapter.of(deserializer, deserialized -> Optional.of(String.valueOf(deserialized)));
     }
     
     private static <V> StringAdapter<V> parse(Function<String, V> parser)

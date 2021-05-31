@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface Value<S, V> extends Getter<S, V>, Setter<S, V>
 {
-    static <S, V> Value<S, V> from(Getter<S, V> getter, Setter<S, V> setter)
+    static <S, V> Value<S, V> of(Getter<S, V> getter, Setter<S, V> setter)
     {
         Objects.requireNonNull(getter, "getter");
         Objects.requireNonNull(setter, "setter");

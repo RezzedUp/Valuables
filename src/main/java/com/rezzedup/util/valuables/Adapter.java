@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
 {
-    static <S, D> Adapter<S, D> adapts(Deserializer<S, D> deserializer, Serializer<D, S> serializer)
+    static <S, D> Adapter<S, D> of(Deserializer<S, D> deserializer, Serializer<D, S> serializer)
     {
         Objects.requireNonNull(deserializer, "deserializer");
         Objects.requireNonNull(serializer, "serializer");
@@ -36,7 +36,7 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
     
     static <S, D extends S> Adapter<S, D> subtype(Function<S, D> deserializer)
     {
-        return adapts(
+        return Adapter.of(
             serialized -> {
                 try { return Optional.of(deserializer.apply(serialized)); }
                 catch (ClassCastException e) { return Optional.empty(); }

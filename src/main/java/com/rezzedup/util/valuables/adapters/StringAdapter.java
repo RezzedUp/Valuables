@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public interface StringAdapter<V> extends Adapter<String, V>
 {
-    static <V> StringAdapter<V> adapts(Deserializer<String, V> deserializer, Serializer<V, String> serializer)
+    static <V> StringAdapter<V> of(Deserializer<String, V> deserializer, Serializer<V, String> serializer)
     {
         Objects.requireNonNull(deserializer, "deserializer");
         Objects.requireNonNull(serializer, "serializer");

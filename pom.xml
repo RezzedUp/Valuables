@@ -61,21 +61,10 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.4.0</version>
+            <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <defaultGoal>package</defaultGoal>
@@ -125,18 +114,82 @@
                         </licenseSet>
                     </licenseSets>
                 </configuration>
+                <!-- Check for missing license headers -->
                 <executions>
                     <execution>
+                        <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+            <!-- Enforce Maven Central standards -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <id>enforce-no-repositories</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireNoRepositories>
+                                    <message>Only use dependencies from Maven Central.</message>
+                                </requireNoRepositories>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <profiles>
+        <!-- Development (activated by default, unless: -Ddeploy) -->
+        <profile>
+            <id>development</id>
+            <activation>
+                <property>
+                    <name>!deploy</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Enforce SNAPSHOT versions in development -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-no-releases</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireSnapshotVersion>
+                                            <message>Missing SNAPSHOT in version.</message>
+                                        </requireSnapshotVersion>
+                                    </rules>
+                                    <fail>true</fail>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- Production (activated by: -Pproduction OR -Ddeploy) -->
         <profile>
             <id>production</id>
@@ -186,8 +239,8 @@
                 </plugins>
             </build>
         </profile>
+        <!-- Deploy (activated by: -Ddeploy) -->
         <profile>
-            <!-- Production (activated by: -Ddeploy) -->
             <id>deploy</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
@@ -197,6 +250,7 @@
             </activation>
             <build>
                 <plugins>
+                    <!-- Sign artifacts -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -210,6 +264,25 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <!-- Prevent `gpg` from using pinentry programs -->
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </plugin>
+                    <!-- Nexus Staging Plugin -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        </configuration>
                     </plugin>
               </plugins>
             </build>

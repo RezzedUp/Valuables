@@ -7,8 +7,21 @@
  */
 package com.rezzedup.util.valuables;
 
+/**
+ * Represents a key.
+ *
+ * @param <K>   key type
+ */
 @FunctionalInterface
 public interface KeyHolder<K>
 {
+    /**
+     * Gets the key.
+     *
+     * @return  the key
+     *
+     * @implSpec    this should always
+     *              return the same key
+     */
     K key();
 }

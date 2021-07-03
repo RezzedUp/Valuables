@@ -12,8 +12,25 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * A value represented by a getter and a setter.
+ *
+ * @param <S>   storage type
+ * @param <V>   value type
+ */
 public interface Value<S, V> extends Getter<S, V>, Setter<S, V>
 {
+    /**
+     * Creates a new {@code Value} by delegating
+     * to the provided arguments.
+     *
+     * @param getter    the value getter
+     * @param setter    the value setter
+     * @param <S>       storage type
+     * @param <V>       value type
+     *
+     * @return  a new instance composed of the arguments
+     */
     static <S, V> Value<S, V> of(Getter<S, V> getter, Setter<S, V> setter)
     {
         Objects.requireNonNull(getter, "getter");

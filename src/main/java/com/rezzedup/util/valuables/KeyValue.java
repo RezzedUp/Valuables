@@ -12,8 +12,28 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * A value associated with a particular key.
+ *
+ * @param <S>   storage type
+ * @param <K>   key type
+ * @param <V>   value type
+ */
 public interface KeyValue<S, K, V> extends KeyHolder<K>, Value<S, V>
 {
+    /**
+     * Creates a new {@code KeyValue} by delegating
+     * to the provided arguments.
+     *
+     * @param key       the key
+     * @param getter    the value getter
+     * @param setter    the value setter
+     * @param <S>       storage type
+     * @param <K>       key type
+     * @param <V>       value type
+     *
+     * @return  a new instance composed of the arguments
+     */
     static <S, K, V> KeyValue<S, K, V> of(K key, KeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
     {
         Objects.requireNonNull(key, "key");

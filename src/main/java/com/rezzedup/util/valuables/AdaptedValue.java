@@ -12,8 +12,27 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * A value that must be adapted to and from storage.
+ *
+ * @param <S>   storage type
+ * @param <O>   output type
+ * @param <V>   value type
+ */
 public interface AdaptedValue<S, O, V> extends Adaptable<O, V>, Value<S, V>
 {
+    /**
+     * Creates a new {@code AdaptedValue} by delegating
+     * to the provided arguments.
+     *
+     * @param adapter   the adapter
+     * @param value     the 'output' value
+     * @param <S>       storage type
+     * @param <O>       output type
+     * @param <V>       value type
+     *
+     * @return  a new instance composed of the arguments
+     */
     static <S, O, V> AdaptedValue<S, O, V> of(Adapter<O, V> adapter, Value<S, O> value)
     {
         Objects.requireNonNull(adapter, "adapter");

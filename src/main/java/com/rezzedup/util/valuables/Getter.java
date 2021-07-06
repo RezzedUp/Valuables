@@ -23,7 +23,7 @@ import java.util.function.Function;
 public interface Getter<S, V>
 {
     /**
-     * Converts a direct getter into a possible value getter.
+     * Converts a direct getter into an optional getter.
      *
      * @param getter    direct getter
      * @param <S>       storage type
@@ -41,7 +41,7 @@ public interface Getter<S, V>
     /**
      * Gets the possible value from storage.
      *
-     * @param storage   storage where the value may exist
+     * @param storage   storage that may contain the value
      *
      * @return  the value if it was successfully
      *          retrieved, otherwise empty

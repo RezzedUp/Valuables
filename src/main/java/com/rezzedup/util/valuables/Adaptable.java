@@ -7,7 +7,19 @@
  */
 package com.rezzedup.util.valuables;
 
+/**
+ * Represents something capable of being adapted.
+ *
+ * @param <S>   serialized type
+ * @param <D>   deserialized type
+ */
 public interface Adaptable<S, D>
 {
+    /**
+     * Gets the adapter.
+     * The same adapter should always be returned.
+     *
+     * @return  the adapter
+     */
     Adapter<S, D> adapter();
 }

@@ -12,8 +12,27 @@ import pl.tlinkowski.annotation.basic.NullOr;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * A value associated with a default fallback and a key.
+ *
+ * @param <S>   storage type
+ * @param <K>   key type
+ * @param <V>   value type
+ */
 public interface DefaultKeyValue<S, K, V> extends DefaultValue<S, V>, KeyValue<S, K, V>
 {
+    /**
+     * Creates a new {@code DefaultKeyValue} by delegating
+     * to the provided arguments.
+     *
+     * @param def       the default fallback value
+     * @param value     an existing key value implementation
+     * @param <S>       storage type
+     * @param <K>       key type
+     * @param <V>       value type
+     *
+     * @return  a new instance composed of the arguments
+     */
     static <S, K, V> DefaultKeyValue<S, K, V> of(V def, KeyValue<S, K, V> value)
     {
         Objects.requireNonNull(def, "def");

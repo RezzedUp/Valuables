@@ -23,15 +23,15 @@ public interface Serializer<D, S>
      * If the object cannot be properly serialized,
      * then the result will be empty.
      *
+     * <p><b>Note:</b> this should never throw any
+     * runtime exceptions or return null. An empty
+     * optional should always be returned if
+     * serialization fails.</p>
+     *
      * @param deserialized  the object to serialize
      *
      * @return  the serialized result if successful,
      *          otherwise empty
-     *
-     * @implSpec    implementers should not throw any
-     *              runtime exceptions or return null
-     *              - always return an empty optional
-     *              if serialization fails
      */
     Optional<S> serialize(D deserialized);
 }

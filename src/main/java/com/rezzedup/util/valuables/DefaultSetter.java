@@ -7,9 +7,26 @@
  */
 package com.rezzedup.util.valuables;
 
+/**
+ * Sets a value in storage with options for default values.
+ *
+ * @param <S>   storage type
+ * @param <V>   value type
+ */
 public interface DefaultSetter<S, V> extends Setter<S, V>
 {
+    /**
+     * Sets the value in storage to the default value.
+     *
+     * @param storage   the storage
+     */
     void setAsDefault(S storage);
     
+    /**
+     * Sets the value in storage to the default value
+     * if there isn't already an existing value yet.
+     *
+     * @param storage   the storage
+     */
     void setAsDefaultIfUnset(S storage);
 }

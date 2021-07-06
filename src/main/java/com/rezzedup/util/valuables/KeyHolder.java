@@ -8,7 +8,7 @@
 package com.rezzedup.util.valuables;
 
 /**
- * Represents a key.
+ * Represents an association with a key.
  *
  * @param <K>   key type
  */
@@ -17,11 +17,9 @@ public interface KeyHolder<K>
 {
     /**
      * Gets the key.
+     * The same key should always be returned.
      *
      * @return  the key
-     *
-     * @implSpec    this should always
-     *              return the same key
      */
     K key();
 }

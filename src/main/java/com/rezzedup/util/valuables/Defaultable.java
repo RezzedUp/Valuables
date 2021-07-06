@@ -7,8 +7,19 @@
  */
 package com.rezzedup.util.valuables;
 
+/**
+ * Represents a default value.
+ *
+ * @param <V>   value type
+ */
 @FunctionalInterface
 public interface Defaultable<V>
 {
+    /**
+     * Gets the default value.
+     * The same value should always be returned.
+     *
+     * @return  the default value
+     */
     V getDefaultValue();
 }

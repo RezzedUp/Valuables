@@ -7,7 +7,7 @@
  */
 /**
  * <h2>Valuables</h2>
- * <p>Utilities for getting, setting, and composing values.</p>
+ * <p>Abstractions and utilities for getting, setting, and composing values.</p>
  * <p><a href="https://github.com/RezzedUp/Valuables">https://github.com/RezzedUp/Valuables</a></p>
  */
 module com.rezzedup.util.valuables
@@ -15,5 +15,4 @@ module com.rezzedup.util.valuables
     requires static pl.tlinkowski.annotation.basic;
     
     exports com.rezzedup.util.valuables;
-    exports com.rezzedup.util.valuables.adapters;
 }

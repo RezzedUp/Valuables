@@ -7,8 +7,11 @@
  */
 package com.rezzedup.util.valuables;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -53,10 +56,9 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
      * @return  an adapter that always returns whatever
      *          it received as input
      */
-    @SuppressWarnings("unchecked")
     static <S> Adapter<S, S> identity()
     {
-        return (Adapter<S, S>) Adapters.IDENTITY;
+        return Adapts.identity();
     }
     
     /**
@@ -86,5 +88,109 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
             },
             Optional::of
         );
+    }
+    
+    /**
+     * A collection of standard adapters.
+     *
+     * @param <S>   serialized type
+     */
+    interface StandardSet<S>
+    {
+        /**
+         * Adapts from the serialized type into
+         * strings and vice versa.
+         *
+         * @return  an adapter for strings
+         */
+        Adapter<S, String> intoString();
+        
+        /**
+         * Adapts from the serialized type into
+         * booleans and vice versa.
+         *
+         * @return  an adapter for booleans
+         */
+        Adapter<S, Boolean> intoBoolean();
+        
+        /**
+         * Adapts from the serialized type into
+         * characters and vice versa.
+         *
+         * @return  an adapter for characters
+         */
+        Adapter<S, Character> intoCharacter();
+        
+        /**
+         * Adapts from the serialized type into
+         * bytes and vice versa.
+         *
+         * @return  an adapter for bytes
+         */
+        Adapter<S, Byte> intoByte();
+        
+        /**
+         * Adapts from the serialized type into
+         * shorts and vice versa.
+         *
+         * @return  an adapter for shorts
+         */
+        Adapter<S, Short> intoShort();
+        
+        /**
+         * Adapts from the serialized type into
+         * integers and vice versa.
+         *
+         * @return  an adapter for integers
+         */
+        Adapter<S, Integer> intoInteger();
+        
+        /**
+         * Adapts from the serialized type into
+         * longs and vice versa.
+         *
+         * @return  an adapter for longs
+         */
+        Adapter<S, Long> intoLong();
+        
+        /**
+         * Adapts from the serialized type into
+         * floats and vice versa.
+         *
+         * @return  an adapter for floats
+         */
+        Adapter<S, Float> intoFloat();
+        
+        /**
+         * Adapts from the serialized type into
+         * doubles and vice versa.
+         *
+         * @return  an adapter for doubles
+         */
+        Adapter<S, Double> intoDouble();
+        
+        /**
+         * Adapts from the serialized type into
+         * big integers and vice versa.
+         *
+         * @return  an adapter for big integers
+         */
+        Adapter<S, BigInteger> intoBigInteger();
+        
+        /**
+         * Adapts from the serialized type into
+         * big decimals and vice versa.
+         *
+         * @return  an adapter for big decimals
+         */
+        Adapter<S, BigDecimal> intoBigDecimal();
+        
+        /**
+         * Adapts from the serialized type into
+         * UUIDs and vice versa.
+         *
+         * @return  an adapter for UUIDs
+         */
+        Adapter<S, UUID> intoUuid();
     }
 }

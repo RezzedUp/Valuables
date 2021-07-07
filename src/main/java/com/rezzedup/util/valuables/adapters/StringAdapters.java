@@ -7,6 +7,7 @@
  */
 package com.rezzedup.util.valuables.adapters;
 
+import com.rezzedup.util.valuables.Adapter;
 import com.rezzedup.util.valuables.Deserializer;
 
 import java.math.BigDecimal;
@@ -65,4 +66,43 @@ final class StringAdapters
             catch (RuntimeException ignored) { return Optional.empty(); }
         });
     }
+    
+    static final StandardAdapterSet<String> ADAPTERS = new StandardAdapterSet<>()
+    {
+        @Override
+        public Adapter<String, String> strings() { return Adapter.identity(); }
+        
+        @Override
+        public Adapter<String, Boolean> booleans() { return BOOLEAN; }
+        
+        @Override
+        public Adapter<String, Character> characters() { return CHARACTER; }
+        
+        @Override
+        public Adapter<String, Byte> bytes() { return BYTE; }
+        
+        @Override
+        public Adapter<String, Short> shorts() { return SHORT; }
+        
+        @Override
+        public Adapter<String, Integer> integers() { return INTEGER; }
+        
+        @Override
+        public Adapter<String, Long> longs() { return LONG; }
+        
+        @Override
+        public Adapter<String, Float> floats() { return FLOAT; }
+        
+        @Override
+        public Adapter<String, Double> doubles() { return DOUBLE; }
+        
+        @Override
+        public Adapter<String, BigInteger> bigIntegers() { return BIG_INTEGER; }
+        
+        @Override
+        public Adapter<String, BigDecimal> bigDecimals() { return BIG_DECIMAL; }
+        
+        @Override
+        public Adapter<String, UUID> uuids() { return U_UID; }
+    };
 }

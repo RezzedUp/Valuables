@@ -5,9 +5,9 @@
 [![](https://img.shields.io/badge/Java-11-orange)](# "Java Version: 11")
 [![javadoc](https://javadoc.io/badge2/com.rezzedup.util/valuables/javadoc.svg?label=Javadoc&color=%234D7A97)](https://javadoc.io/doc/com.rezzedup.util/valuables "View Javadocs") 
 
-Utilities for getting, setting, and composing values.
+Abstractions and utilities for getting, setting, and composing values.
 
-## Maven *(coming soon!)*
+## Maven
 
 ```xml
 <dependency>

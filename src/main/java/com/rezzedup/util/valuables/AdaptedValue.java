@@ -23,10 +23,14 @@ public interface AdaptedValue<S, O, V> extends Adaptable<O, V>, Value<S, V>
 {
     /**
      * Creates a new {@code AdaptedValue} by delegating
-     * to the provided arguments.
+     * to the provided arguments. Getting the value will
+     * always deserialize from storage, and setting the
+     * value will always serialize into storage.
      *
      * @param adapter   the adapter
-     * @param value     the 'output' value
+     * @param value     an existing value implementation
+     *                  that gets and sets the value from
+     *                  storage in the original 'output' type
      * @param <S>       storage type
      * @param <O>       output type
      * @param <V>       value type

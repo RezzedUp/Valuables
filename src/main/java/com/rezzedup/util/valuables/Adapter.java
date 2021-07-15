@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * Combines a serializer with a compatible deserializer.
@@ -62,30 +62,30 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
     }
     
     /**
-     * Helper for creating adapters that deserialize objects
-     * by casting them to a compatible subtype.
+     * Adapts objects by casting if they're compatible.
+     * Whether or not a serialized value can be cast is
+     * determined by checking the provided {@code isInstance}
+     * predicate.
      *
      * <p><b>Example:</b></p>
      * <pre>
-     *     Adapter&lt;Number, Double&gt; adapter = Adapter.subtype(num -> (Double) num);
+     *     Adapter&lt;Number, Double&gt; adapter = Adapter.cast(o -> o instanceof Double);
      *     Number serialized = adapter.serialize(5.0).orElseThrow();
-     *     // deserializes by casting to a subtype:
      *     Double deserialized = adapter.deserialize(serialized).orElseThrow();
      * </pre>
      *
-     * @param deserializer  the cast to a subtype
+     * @param isInstance    checks whether the serialized value is
+     *                      an instance of the desired type
      * @param <S>           serialized (super) type
      * @param <D>           deserialized (sub) type
      *
-     * @return  an adapter that deserializes to a subtype
+     * @return  an adapter that deserializes to a subtype by casting
      */
-    static <S, D extends S> Adapter<S, D> subtype(Function<S, D> deserializer)
+    @SuppressWarnings("unchecked")
+    static <S, D extends S> Adapter<S, D> cast(Predicate<S> isInstance)
     {
         return Adapter.of(
-            serialized -> {
-                try { return Optional.of(deserializer.apply(serialized)); }
-                catch (ClassCastException e) { return Optional.empty(); }
-            },
+            serialized -> (isInstance.test(serialized)) ? Optional.of((D) serialized) : Optional.empty(),
             Optional::of
         );
     }
@@ -192,5 +192,16 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
          * @return  an adapter for UUIDs
          */
         Adapter<S, UUID> intoUuid();
+        
+        /**
+         * Adapts from the serialized type into
+         * enums and vice versa.
+         *
+         * @param type  the enum class
+         * @param <E>   enum type
+         *
+         * @return  an adapter for enums
+         */
+        <E extends Enum<E>> Adapter<S, E> intoEnum(Class<E> type);
     }
 }

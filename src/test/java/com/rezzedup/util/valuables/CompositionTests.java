@@ -33,7 +33,7 @@ public class CompositionTests
             DefaultAdaptedKeyValue.of(
                 5.5,
                 AdaptedKeyValue.of(
-                    Adapter.subtype(num -> (Double) num),
+                    Adapter.cast(num -> num instanceof Double),
                     KeyValue.of("fiveAndAHalf", KeyGetter.maybe(Map::get), Map::put)
                 )
             );

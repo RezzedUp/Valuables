@@ -29,22 +29,31 @@ public class Adapts
         public Optional<Object> serialize(Object deserialized) { return Optional.of(deserialized); }
     };
     
+    private static final StandardStringAdapters STRINGS = new StandardStringAdapters();
+    
+    private static final StandardObjectAdapters OBJECTS = new StandardObjectAdapters();
+    
     @SuppressWarnings("unchecked")
     static <S> Adapter<S, S> identity() { return (Adapter<S, S>) IDENTITY; }
     
-    private static final StandardStringAdapters STRINGS = new StandardStringAdapters();
-    
     /**
-     * Gets the standard adapter set for serialized strings.
+     * Gets standard adapters for serialized strings.
+     * Strings will be parsed for deserialized values.
      *
      * @return  adapters for strings
      */
     public static Adapter.StandardSet<String> string() { return STRINGS; }
     
+    /**
+     * Gets standard adapters for casting objects.
+     * Objects will be cast for deserialized values.
+     *
+     * @return  adapters for objects
+     */
+    public static Adapter.StandardSet<Object> object() { return OBJECTS; }
+    
     private static class StandardStringAdapters implements Adapter.StandardSet<String>
     {
-        private StandardStringAdapters() { throw new UnsupportedOperationException(); }
-        
         static final Adapter<String, Boolean> BOOLEAN =
             simple(serialized ->
                 ("true".equalsIgnoreCase(serialized))
@@ -127,5 +136,97 @@ public class Adapts
         
         @Override
         public Adapter<String, UUID> intoUuid() { return U_UID; }
+    
+        @Override
+        public <E extends Enum<E>> Adapter<String, E> intoEnum(Class<E> type)
+        {
+            return Adapter.of(
+                serialized -> {
+                    try { return Optional.of(Enum.valueOf(type, serialized)); }
+                    catch (IllegalArgumentException ignored) { return Optional.empty(); }
+                },
+                deserialized -> Optional.of(deserialized.name())
+            );
+        }
+    }
+    
+    private static class StandardObjectAdapters implements Adapter.StandardSet<Object>
+    {
+        static final Adapter<Object, String> STRING = Adapter.cast(o -> o instanceof String);
+        
+        static final Adapter<Object, Boolean> BOOLEAN = Adapter.cast(o -> o instanceof Boolean);
+        
+        static final Adapter<Object, Character> CHARACTER = Adapter.cast(o -> o instanceof Character);
+        
+        static final Adapter<Object, Short> SHORT = number(Number::shortValue);
+        
+        static final Adapter<Object, Byte> BYTE = number(Number::byteValue);
+        
+        static final Adapter<Object, Integer> INTEGER = number(Number::intValue);
+        
+        static final Adapter<Object, Long> LONG = number(Number::longValue);
+        
+        static final Adapter<Object, Float> FLOAT = number(Number::floatValue);
+        
+        static final Adapter<Object, Double> DOUBLE = number(Number::doubleValue);
+        
+        static final Adapter<Object, BigInteger> BIG_INTEGER = Adapter.cast(o -> o instanceof BigInteger);
+        
+        static final Adapter<Object, BigDecimal> BIG_DECIMAL = Adapter.cast(o -> o instanceof BigDecimal);
+        
+        static final Adapter<Object, UUID> U_UID = Adapter.cast(o -> o instanceof UUID);
+        
+        private static <N extends Number> Adapter<Object, N> number(Function<Number, N> converter)
+        {
+            return Adapter.of(
+                serialized ->
+                    (serialized instanceof Number)
+                        ? Optional.of(converter.apply((Number) serialized))
+                        : Optional.empty(),
+                Optional::of
+            );
+        }
+        
+        @Override
+        public Adapter<Object, String> intoString() { return STRING; }
+    
+        @Override
+        public Adapter<Object, Boolean> intoBoolean() { return BOOLEAN; }
+    
+        @Override
+        public Adapter<Object, Character> intoCharacter() { return CHARACTER; }
+    
+        @Override
+        public Adapter<Object, Byte> intoByte() { return BYTE; }
+    
+        @Override
+        public Adapter<Object, Short> intoShort() { return SHORT; }
+    
+        @Override
+        public Adapter<Object, Integer> intoInteger() { return INTEGER; }
+    
+        @Override
+        public Adapter<Object, Long> intoLong() { return LONG; }
+    
+        @Override
+        public Adapter<Object, Float> intoFloat() { return FLOAT; }
+    
+        @Override
+        public Adapter<Object, Double> intoDouble() { return DOUBLE; }
+    
+        @Override
+        public Adapter<Object, BigInteger> intoBigInteger() { return BIG_INTEGER; }
+    
+        @Override
+        public Adapter<Object, BigDecimal> intoBigDecimal() { return BIG_DECIMAL; }
+    
+        @Override
+        public Adapter<Object, UUID> intoUuid() { return U_UID; }
+    
+        @Override
+        public <E extends Enum<E>> Adapter<Object, E> intoEnum(Class<E> type)
+        {
+            return Adapter.cast(o -> type.isAssignableFrom(o.getClass()));
+        }
     }
 }

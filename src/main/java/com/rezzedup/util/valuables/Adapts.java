@@ -38,7 +38,7 @@ public class Adapts
     
     /**
      * Gets standard adapters for serialized strings.
-     * Strings will be parsed for deserialized values.
+     * <p>Strings will be parsed into deserialized values.</p>
      *
      * @return  adapters for strings
      */
@@ -46,7 +46,16 @@ public class Adapts
     
     /**
      * Gets standard adapters for casting objects.
-     * Objects will be cast for deserialized values.
+     *
+     * <p>Objects will be cast into deserialized values,
+     * with a few exceptions:</p>
+     *
+     * <ul>
+     *     <li>{@code intoString()} converts objects into
+     *     their string representation.</li>
+     *     <li>All number types are compatible with each
+     *     other since they all extend {@code Number}.</li>
+     * </ul>
      *
      * @return  adapters for objects
      */
@@ -152,7 +161,7 @@ public class Adapts
     
     private static class StandardObjectAdapters implements Adapter.StandardSet<Object>
     {
-        static final Adapter<Object, String> STRING = Adapter.cast(o -> o instanceof String);
+        static final Adapter<Object, String> STRING = Adapter.of(o -> Optional.of(String.valueOf(o)), Optional::of);
         
         static final Adapter<Object, Boolean> BOOLEAN = Adapter.cast(o -> o instanceof Boolean);
         

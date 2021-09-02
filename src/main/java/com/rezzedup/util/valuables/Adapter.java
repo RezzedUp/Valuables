@@ -56,9 +56,26 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
      * @return  an adapter that always returns whatever
      *          it received as input
      */
+    @SuppressWarnings("unchecked")
     static <S> Adapter<S, S> identity()
     {
-        return Adapts.identity();
+        return (Adapter<S, S>) Adapters.IDENTITY;
+    }
+    
+    /**
+     * Gets an adapter that always returns
+     * {@link Optional#empty()} for both
+     * deserialization and serialization.
+     *
+     * @param <S>   serialized type
+     * @param <D>   deserialized type
+     *
+     * @return  an adapter that always returns empty
+     */
+    @SuppressWarnings("unchecked")
+    static <S, D> Adapter<S, D> unsupported()
+    {
+        return (Adapter<S, D>) Adapters.UNSUPPORTED;
     }
     
     /**
@@ -88,6 +105,37 @@ public interface Adapter<S, D> extends Deserializer<S, D>, Serializer<D, S>
             serialized -> (isInstance.test(serialized)) ? Optional.of((D) serialized) : Optional.empty(),
             Optional::of
         );
+    }
+    
+    /**
+     * Gets standard adapters for serialized strings.
+     * <p>Strings will be parsed into deserialized values.</p>
+     *
+     * @return  adapters for strings
+     */
+    static StandardSet<String> ofString()
+    {
+        return Adapters.STRINGS;
+    }
+    
+    /**
+     * Gets standard adapters for casting objects.
+     *
+     * <p>Objects will be cast into deserialized values,
+     * with a few exceptions:</p>
+     *
+     * <ul>
+     *     <li>{@code intoString()} converts objects into
+     *     their string representation.</li>
+     *     <li>All number types are compatible with each
+     *     other since they all extend {@code Number}.</li>
+     * </ul>
+     *
+     * @return  adapters for objects
+     */
+    static StandardSet<Object> ofObject()
+    {
+        return Adapters.OBJECTS;
     }
     
     /**

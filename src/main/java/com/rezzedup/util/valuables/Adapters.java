@@ -13,53 +13,31 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
-/**
- * Predefined standard adapter sets.
- */
-public class Adapts
+final class Adapters
 {
-    private Adapts() { throw new UnsupportedOperationException(); }
+    private Adapters() { throw new UnsupportedOperationException(); }
     
     static final Adapter<?, ?> IDENTITY = new Adapter<>()
     {
         @Override
         public Optional<Object> deserialize(Object serialized) { return Optional.of(serialized); }
-    
+        
         @Override
         public Optional<Object> serialize(Object deserialized) { return Optional.of(deserialized); }
     };
     
-    private static final StandardStringAdapters STRINGS = new StandardStringAdapters();
+    static final Adapter<?, ?> UNSUPPORTED = new Adapter<>()
+    {
+        @Override
+        public Optional<Object> deserialize(Object serialized) { return Optional.empty(); }
+        
+        @Override
+        public Optional<Object> serialize(Object deserialized) { return Optional.empty(); }
+    };
     
-    private static final StandardObjectAdapters OBJECTS = new StandardObjectAdapters();
+    static final StandardStringAdapters STRINGS = new StandardStringAdapters();
     
-    @SuppressWarnings("unchecked")
-    static <S> Adapter<S, S> identity() { return (Adapter<S, S>) IDENTITY; }
-    
-    /**
-     * Gets standard adapters for serialized strings.
-     * <p>Strings will be parsed into deserialized values.</p>
-     *
-     * @return  adapters for strings
-     */
-    public static Adapter.StandardSet<String> string() { return STRINGS; }
-    
-    /**
-     * Gets standard adapters for casting objects.
-     *
-     * <p>Objects will be cast into deserialized values,
-     * with a few exceptions:</p>
-     *
-     * <ul>
-     *     <li>{@code intoString()} converts objects into
-     *     their string representation.</li>
-     *     <li>All number types are compatible with each
-     *     other since they all extend {@code Number}.</li>
-     * </ul>
-     *
-     * @return  adapters for objects
-     */
-    public static Adapter.StandardSet<Object> object() { return OBJECTS; }
+    static final StandardObjectAdapters OBJECTS = new StandardObjectAdapters();
     
     private static class StandardStringAdapters implements Adapter.StandardSet<String>
     {
@@ -110,8 +88,9 @@ public class Adapts
             });
         }
         
+        @SuppressWarnings("unchecked")
         @Override
-        public Adapter<String, String> intoString() { return identity(); }
+        public Adapter<String, String> intoString() { return (Adapter<String, String>) IDENTITY; }
         
         @Override
         public Adapter<String, Boolean> intoBoolean() { return BOOLEAN; }

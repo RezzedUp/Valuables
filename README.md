@@ -1,4 +1,4 @@
-# 🗳️Valuables
+# 🗳️ Valuables
 
 [![](https://img.shields.io/maven-central/v/com.rezzedup.util/valuables?color=ok&label=Maven%20Central)](https://search.maven.org/artifact/com.rezzedup.util/valuables "Maven Central")
 [![](https://img.shields.io/badge/License-MPL--2.0-blue)](./LICENSE "Project License: MPL-2.0")

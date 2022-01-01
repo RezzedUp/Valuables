@@ -22,29 +22,29 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface Getter<S, V>
 {
-    /**
-     * Converts a direct getter into an optional getter.
-     *
-     * @param getter    direct getter
-     * @param <S>       storage type
-     * @param <V>       value type
-     *
-     * @return  the direct getter wrapped by an optional
-     */
-    @SuppressWarnings("ConstantConditions")
-    static <S, V> Getter<S, V> maybe(Function<S, @NullOr V> getter)
-    {
-        Objects.requireNonNull(getter, "getter");
-        return storage -> Optional.ofNullable(getter.apply(storage));
-    }
-    
-    /**
-     * Gets the possible value from storage.
-     *
-     * @param storage   storage that may contain the value
-     *
-     * @return  the value if it was successfully
-     *          retrieved, otherwise empty
-     */
-    Optional<V> get(S storage);
+	/**
+	 * Converts a direct getter into an optional getter.
+	 *
+	 * @param getter    direct getter
+	 * @param <S>       storage type
+	 * @param <V>       value type
+	 *
+	 * @return  the direct getter wrapped by an optional
+	 */
+	@SuppressWarnings("ConstantConditions")
+	static <S, V> Getter<S, V> maybe(Function<S, @NullOr V> getter)
+	{
+		Objects.requireNonNull(getter, "getter");
+		return storage -> Optional.ofNullable(getter.apply(storage));
+	}
+	
+	/**
+	 * Gets the possible value from storage.
+	 *
+	 * @param storage   storage that may contain the value
+	 *
+	 * @return  the value if it was successfully
+	 *          retrieved, otherwise empty
+	 */
+	Optional<V> get(S storage);
 }

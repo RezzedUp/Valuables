@@ -15,11 +15,11 @@ package com.rezzedup.util.valuables;
  */
 public interface Adaptable<S, D>
 {
-    /**
-     * Gets the adapter.
-     * The same adapter should always be returned.
-     *
-     * @return  the adapter
-     */
-    Adapter<S, D> adapter();
+	/**
+	 * Gets the adapter.
+	 * The same adapter should always be returned.
+	 *
+	 * @return  the adapter
+	 */
+	Adapter<S, D> adapter();
 }

@@ -15,11 +15,11 @@ package com.rezzedup.util.valuables;
 @FunctionalInterface
 public interface KeyHolder<K>
 {
-    /**
-     * Gets the key.
-     * The same key should always be returned.
-     *
-     * @return  the key
-     */
-    K key();
+	/**
+	 * Gets the key.
+	 * The same key should always be returned.
+	 *
+	 * @return  the key
+	 */
+	K key();
 }

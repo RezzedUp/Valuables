@@ -15,11 +15,11 @@ package com.rezzedup.util.valuables;
 @FunctionalInterface
 public interface Defaultable<V>
 {
-    /**
-     * Gets the default value.
-     * The same value should always be returned.
-     *
-     * @return  the default value
-     */
-    V getDefaultValue();
+	/**
+	 * Gets the default value.
+	 * The same value should always be returned.
+	 *
+	 * @return  the default value
+	 */
+	V getDefaultValue();
 }

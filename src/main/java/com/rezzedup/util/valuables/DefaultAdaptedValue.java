@@ -22,39 +22,39 @@ import java.util.Optional;
  */
 public interface DefaultAdaptedValue<S, O, V> extends AdaptedValue<S, O, V>, DefaultValue<S, V>
 {
-    /**
-     * Creates a new {@code DefaultAdaptedValue} by
-     * delegating to the provided arguments. Getting the value
-     * will always deserialize from storage, and setting the
-     * value will always serialize into storage.
-     *
-     * @param value     an existing key value implementation
-     *                  that gets and sets the value from
-     *                  storage in the original 'output' type
-     * @param <S>       storage type
-     * @param <O>       output type
-     * @param <V>       value type
-     *
-     * @return  a new instance composed of the arguments
-     */
-    static <S, O, V> DefaultAdaptedValue<S, O, V> of(V def, AdaptedValue<S, O, V> value)
-    {
-        Objects.requireNonNull(def, "def");
-        Objects.requireNonNull(value, "value");
-        
-        return new DefaultAdaptedValue<>()
-        {
-            @Override
-            public Adapter<O, V> adapter() { return value.adapter(); }
-    
-            @Override
-            public V getDefaultValue() { return def; }
-    
-            @Override
-            public Optional<V> get(S storage) { return value.get(storage); }
-    
-            @Override
-            public void set(S storage, @NullOr V updated) { value.set(storage, updated); }
-        };
-    }
+	/**
+	 * Creates a new {@code DefaultAdaptedValue} by
+	 * delegating to the provided arguments. Getting the value
+	 * will always deserialize from storage, and setting the
+	 * value will always serialize into storage.
+	 *
+	 * @param value     an existing key value implementation
+	 *                  that gets and sets the value from
+	 *                  storage in the original 'output' type
+	 * @param <S>       storage type
+	 * @param <O>       output type
+	 * @param <V>       value type
+	 *
+	 * @return  a new instance composed of the arguments
+	 */
+	static <S, O, V> DefaultAdaptedValue<S, O, V> of(V def, AdaptedValue<S, O, V> value)
+	{
+		Objects.requireNonNull(def, "def");
+		Objects.requireNonNull(value, "value");
+		
+		return new DefaultAdaptedValue<>()
+		{
+			@Override
+			public Adapter<O, V> adapter() { return value.adapter(); }
+	
+			@Override
+			public V getDefaultValue() { return def; }
+	
+			@Override
+			public Optional<V> get(S storage) { return value.get(storage); }
+	
+			@Override
+			public void set(S storage, @NullOr V updated) { value.set(storage, updated); }
+		};
+	}
 }

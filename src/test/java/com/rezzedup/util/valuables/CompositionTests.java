@@ -16,32 +16,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CompositionTests
 {
-	@Test
-	public void testMapComposition()
-	{
-		Map<String, Number> numbersByName = new HashMap<>();
-		
-		DefaultKeyValue<Map<String, Number>, String, Number> ten =
-			DefaultKeyValue.of(10, KeyValue.of("ten", KeyGetter.maybe(Map::get), Map::put));
-	
-		ten.setAsDefault(numbersByName);
-		
-		assertEquals(10, numbersByName.get("ten"));
-		assertEquals(10, ten.get(numbersByName).orElseThrow());
-		
-		DefaultAdaptedKeyValue<Map<String, Number>, String, Number, Double> fiveAndAHalf =
-			DefaultAdaptedKeyValue.of(
-				5.5,
-				AdaptedKeyValue.of(
-					Adapter.cast(num -> num instanceof Double),
-					KeyValue.of("fiveAndAHalf", KeyGetter.maybe(Map::get), Map::put)
-				)
-			);
-		
-		fiveAndAHalf.setAsDefault(numbersByName);
-		assertEquals(5.5, fiveAndAHalf.get(numbersByName).orElseThrow());
-		
-		fiveAndAHalf.remove(numbersByName);
-		assertEquals(5.5, fiveAndAHalf.getOrDefault(numbersByName));
-	}
+    @Test
+    public void testMapComposition()
+    {
+        Map<String, Number> numbersByName = new HashMap<>();
+        
+        DefaultKeyValue<Map<String, Number>, String, Number> ten =
+            DefaultKeyValue.of(10, KeyValue.of("ten", KeyGetter.maybe(Map::get), Map::put));
+    
+        ten.setAsDefault(numbersByName);
+        
+        assertEquals(10, numbersByName.get("ten"));
+        assertEquals(10, ten.get(numbersByName).orElseThrow());
+        
+        DefaultAdaptedKeyValue<Map<String, Number>, String, Number, Double> fiveAndAHalf =
+            DefaultAdaptedKeyValue.of(
+                5.5,
+                AdaptedKeyValue.of(
+                    Adapter.cast(num -> num instanceof Double),
+                    KeyValue.of("fiveAndAHalf", KeyGetter.maybe(Map::get), Map::put)
+                )
+            );
+        
+        fiveAndAHalf.setAsDefault(numbersByName);
+        assertEquals(5.5, fiveAndAHalf.get(numbersByName).orElseThrow());
+        
+        fiveAndAHalf.remove(numbersByName);
+        assertEquals(5.5, fiveAndAHalf.getOrDefault(numbersByName));
+    }
 }

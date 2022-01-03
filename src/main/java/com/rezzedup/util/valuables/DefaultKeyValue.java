@@ -21,36 +21,35 @@ import java.util.Optional;
  */
 public interface DefaultKeyValue<S, K, V> extends DefaultValue<S, V>, KeyValue<S, K, V>
 {
-	/**
-	 * Creates a new {@code DefaultKeyValue} by delegating
-	 * to the provided arguments.
-	 *
-	 * @param def       the default fallback value
-	 * @param value     an existing key value implementation
-	 * @param <S>       storage type
-	 * @param <K>       key type
-	 * @param <V>       value type
-	 *
-	 * @return  a new instance composed of the arguments
-	 */
-	static <S, K, V> DefaultKeyValue<S, K, V> of(V def, KeyValue<S, K, V> value)
-	{
-		Objects.requireNonNull(def, "def");
-		Objects.requireNonNull(value, "value");
-		
-		return new DefaultKeyValue<>()
-		{
-			@Override
-			public V getDefaultValue() { return def; }
-	
-			@Override
-			public K key() { return value.key(); }
-	
-			@Override
-			public Optional<V> get(S storage) { return value.get(storage); }
-	
-			@Override
-			public void set(S storage, @NullOr V updated) { value.set(storage, updated); }
-		};
-	}
+    /**
+     * Creates a new {@code DefaultKeyValue} by delegating to the provided arguments.
+     *
+     * @param def       the default fallback value
+     * @param value     an existing key value implementation
+     * @param <S>       storage type
+     * @param <K>       key type
+     * @param <V>       value type
+     *
+     * @return a new instance composed of the arguments
+     */
+    static <S, K, V> DefaultKeyValue<S, K, V> of(V def, KeyValue<S, K, V> value)
+    {
+        Objects.requireNonNull(def, "def");
+        Objects.requireNonNull(value, "value");
+        
+        return new DefaultKeyValue<>()
+        {
+            @Override
+            public V getDefaultValue() { return def; }
+    
+            @Override
+            public K key() { return value.key(); }
+    
+            @Override
+            public Optional<V> get(S storage) { return value.get(storage); }
+    
+            @Override
+            public void set(S storage, @NullOr V updated) { value.set(storage, updated); }
+        };
+    }
 }

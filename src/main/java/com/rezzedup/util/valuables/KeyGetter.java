@@ -23,31 +23,30 @@ import java.util.function.BiFunction;
 @FunctionalInterface
 public interface KeyGetter<S, K, V>
 {
-	/**
-	 * Converts a direct key getter into an optional key getter.
-	 *
-	 * @param getter    direct key getter
-	 * @param <S>       storage type
-	 * @param <K>       key type
-	 * @param <V>       value type
-	 *
-	 * @return  the direct getter wrapped by an optional
-	 */
-	@SuppressWarnings("ConstantConditions")
-	static <S, K, V> KeyGetter<S, K, V> maybe(BiFunction<S, K, @NullOr V> getter)
-	{
-		Objects.requireNonNull(getter, "getter");
-		return (storage, key) -> Optional.ofNullable(getter.apply(storage, key));
-	}
-	
-	/**
-	 * Gets a possible value from storage at the specified key.
-	 *
-	 * @param storage   storage that may contain the value
-	 * @param key       the key
-	 *
-	 * @return  the value if it was successfully
-	 *          retrieved, otherwise empty
-	 */
-	Optional<V> get(S storage, K key);
+    /**
+     * Converts a direct key getter into an optional key getter.
+     *
+     * @param getter    direct key getter
+     * @param <S>       storage type
+     * @param <K>       key type
+     * @param <V>       value type
+     *
+     * @return the direct getter wrapped by an optional
+     */
+    @SuppressWarnings("ConstantConditions")
+    static <S, K, V> KeyGetter<S, K, V> maybe(BiFunction<S, K, @NullOr V> getter)
+    {
+        Objects.requireNonNull(getter, "getter");
+        return (storage, key) -> Optional.ofNullable(getter.apply(storage, key));
+    }
+    
+    /**
+     * Gets a possible value from storage at the specified key.
+     *
+     * @param storage   storage that may contain the value
+     * @param key       the key
+     *
+     * @return the value if it was successfully retrieved, otherwise empty
+     */
+    Optional<V> get(S storage, K key);
 }

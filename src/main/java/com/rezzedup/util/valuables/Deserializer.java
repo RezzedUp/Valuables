@@ -18,20 +18,16 @@ import java.util.Optional;
 @FunctionalInterface
 public interface Deserializer<S, D>
 {
-	/**
-	 * Deserializes the provided object.
-	 * If the object cannot be properly deserialized,
-	 * then the result will be empty.
-	 *
-	 * <p><b>Note:</b> this should never throw any
-	 * runtime exceptions or return null. An empty
-	 * optional should always be returned if
-	 * deserialization fails.</p>
-	 *
-	 * @param serialized    the object to deserialize
-	 *
-	 * @return  the deserialized result if successful,
-	 *          otherwise empty
-	 */
-	Optional<D> deserialize(S serialized);
+    /**
+     * Deserializes the provided object.
+     * If the object cannot be properly deserialized, then the result will be empty.
+     *
+     * <p><b>Note:</b> this should never throw any runtime exceptions or return null. An empty
+     * optional should always be returned if deserialization fails.</p>
+     *
+     * @param serialized    the object to deserialize
+     *
+     * @return the deserialized result if successful, otherwise empty
+     */
+    Optional<D> deserialize(S serialized);
 }

@@ -21,35 +21,34 @@ import java.util.Optional;
  */
 public interface KeyValue<S, K, V> extends KeyHolder<K>, Value<S, V>
 {
-	/**
-	 * Creates a new {@code KeyValue} by delegating
-	 * to the provided arguments.
-	 *
-	 * @param key       the key
-	 * @param getter    the value getter
-	 * @param setter    the value setter
-	 * @param <S>       storage type
-	 * @param <K>       key type
-	 * @param <V>       value type
-	 *
-	 * @return  a new instance composed of the arguments
-	 */
-	static <S, K, V> KeyValue<S, K, V> of(K key, KeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
-	{
-		Objects.requireNonNull(key, "key");
-		Objects.requireNonNull(getter, "getter");
-		Objects.requireNonNull(setter, "setter");
-	   
-		return new KeyValue<>()
-		{
-			@Override
-			public final K key() { return key; }
-			
-			@Override
-			public final Optional<V> get(S storage) { return getter.get(storage, key); }
-			
-			@Override
-			public final void set(S storage, @NullOr V updated) { setter.set(storage, key, updated); }
-		};
-	}
+    /**
+     * Creates a new {@code KeyValue} by delegating to the provided arguments.
+     *
+     * @param key       the key
+     * @param getter    the value getter
+     * @param setter    the value setter
+     * @param <S>       storage type
+     * @param <K>       key type
+     * @param <V>       value type
+     *
+     * @return a new instance composed of the arguments
+     */
+    static <S, K, V> KeyValue<S, K, V> of(K key, KeyGetter<S, K, V> getter, KeySetter<S, K, V> setter)
+    {
+        Objects.requireNonNull(key, "key");
+        Objects.requireNonNull(getter, "getter");
+        Objects.requireNonNull(setter, "setter");
+       
+        return new KeyValue<>()
+        {
+            @Override
+            public final K key() { return key; }
+            
+            @Override
+            public final Optional<V> get(S storage) { return getter.get(storage, key); }
+            
+            @Override
+            public final void set(S storage, @NullOr V updated) { setter.set(storage, key, updated); }
+        };
+    }
 }

@@ -21,44 +21,41 @@ import java.util.Optional;
  */
 public interface AdaptedValue<S, O, V> extends Adaptable<O, V>, Value<S, V>
 {
-	/**
-	 * Creates a new {@code AdaptedValue} by delegating
-	 * to the provided arguments. Getting the value will
-	 * always deserialize from storage, and setting the
-	 * value will always serialize into storage.
-	 *
-	 * @param adapter   the adapter
-	 * @param value     an existing value implementation
-	 *                  that gets and sets the value from
-	 *                  storage in the original 'output' type
-	 * @param <S>       storage type
-	 * @param <O>       output type
-	 * @param <V>       value type
-	 *
-	 * @return  a new instance composed of the arguments
-	 */
-	static <S, O, V> AdaptedValue<S, O, V> of(Adapter<O, V> adapter, Value<S, O> value)
-	{
-		Objects.requireNonNull(adapter, "adapter");
-		Objects.requireNonNull(value, "value");
-		
-		return new AdaptedValue<>()
-		{
-			@Override
-			public Adapter<O, V> adapter() { return adapter; }
-	
-			@Override
-			public Optional<V> get(S storage)
-			{
-				return value.get(storage).flatMap(adapter::deserialize);
-			}
-	
-			@Override
-			public void set(S storage, @NullOr V updated)
-			{
-				@NullOr O output = (updated == null) ? null : adapter.serialize(updated).orElse(null);
-				value.set(storage, output);
-			}
-		};
-	}
+    /**
+     * Creates a new {@code AdaptedValue} by delegating to the provided arguments. Getting the value will
+     * always deserialize from storage, and setting the value will always serialize into storage.
+     *
+     * @param adapter   the adapter
+     * @param value     an existing value implementation that gets and sets the value from
+     *                  storage in the original 'output' type
+     * @param <S>       storage type
+     * @param <O>       output type
+     * @param <V>       value type
+     *
+     * @return a new instance composed of the arguments
+     */
+    static <S, O, V> AdaptedValue<S, O, V> of(Adapter<O, V> adapter, Value<S, O> value)
+    {
+        Objects.requireNonNull(adapter, "adapter");
+        Objects.requireNonNull(value, "value");
+        
+        return new AdaptedValue<>()
+        {
+            @Override
+            public Adapter<O, V> adapter() { return adapter; }
+    
+            @Override
+            public Optional<V> get(S storage)
+            {
+                return value.get(storage).flatMap(adapter::deserialize);
+            }
+    
+            @Override
+            public void set(S storage, @NullOr V updated)
+            {
+                @NullOr O output = (updated == null) ? null : adapter.serialize(updated).orElse(null);
+                value.set(storage, output);
+            }
+        };
+    }
 }

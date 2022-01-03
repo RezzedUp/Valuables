@@ -15,16 +15,15 @@ package com.rezzedup.util.valuables;
  */
 public interface DefaultGetter<S, V> extends Defaultable<V>, Getter<S, V>
 {
-	/**
-	 * Gets a value from storage or the default fallback
-	 * value if it doesn't exist.
-	 *
-	 * @param storage   the storage
-	 *
-	 * @return  the value from storage or the default fallback
-	 */
-	default V getOrDefault(S storage)
-	{
-		return get(storage).orElseGet(this::getDefaultValue);
-	}
+    /**
+     * Gets a value from storage or the default fallback value if it doesn't exist.
+     *
+     * @param storage   the storage
+     *
+     * @return the value from storage or the default fallback
+     */
+    default V getOrDefault(S storage)
+    {
+        return get(storage).orElseGet(this::getDefaultValue);
+    }
 }
